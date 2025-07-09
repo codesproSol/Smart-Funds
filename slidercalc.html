@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-startbar="light" data-bs-theme="light">
+
+<head>
+
+
+    <meta charset="utf-8" />
+    <title>Loan Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="Loan calculator by codespro" />
+    <meta content="" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+    <!-- App css -->
+    <link href="assets/libs/mobius1-selectr/selectr.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+
+
+    <style>
+        .pstr,
+        .pstl {
+            margin-top: -10px;
+        }
+    </style>
+
+</head>
+
+
+<!-- Top Bar Start -->
+
+<body>
+
+
+
+
+
+    <!-- Page Content-->
+    <div class="page-content">
+        <div class="container-fluid">
+
+
+
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h4 class="card-title">Loan Range Selector</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pt-0">
+                            <label for="customRange1" class="form-label">Select Loan Amount <br />
+                                <h1>₦<span id="rangeValue">5000</span></h1>
+                            </label>
+                            <input type="range" class="form-range" id="customRange1" min="5000" max="300000" step="1000"
+                                value="5000" oninput="updateRangeDetails(this.value)">
+                            <div class="d-flex justify-content-between w-full">
+                                <p class="pstl">5K</p>
+                                <p class="pstr">300K</p>
+                            </div>
+
+                            <div>
+                                <label class="mb-2">Tenure</label>
+                                <select id="default" class="form-select"
+                                    onchange="updateRangeDetails(document.getElementById('customRange1').value)">
+                                    <option value="1"> 1 Month</option>
+                                    <option value="2"> 2 Month</option>
+                                    <option value="3"> 3 Month</option>
+                                    <option value="4"> 4 Month</option>
+                                    <option value="5"> 5 Month</option>
+                                    <option value="6"> 6 Month</option>
+                                    <option value="7"> 7 Month</option>
+                                    <option value="8"> 8 Month</option>
+                                    <option value="9"> 9 Month</option>
+                                    <option value="10"> 10 Month</option>
+                                    <option value="11"> 11 Month</option>
+                                    <option value="12"> 12 Month</option>
+                                </select>
+                            </div>
+
+                            <div class="mt-3">
+                                <p><strong>Management Fee (2%):</strong> ₦<span id="managementAmount">100</span></p>
+                                <p><strong>Insurance fee (1%):</strong> ₦<span id="insuranceAmount">50</span></p>
+                                <p><strong>Processing Fee (1%):</strong> ₦<span id="processingAmount">50</span></p>
+                                <p><strong>Total Fees:</strong> ₦<span id="totalfees"></span></p>
+                                <p><strong>Amount Recievable:</strong> ₦<span id="amountrecieved"></span></p>
+                                <p><strong>Interest (3%):</strong> ₦<span id="interestAmount">150</span></p>
+                                <p><strong>Total Repayment:</strong> ₦<span id="totalRepayment">5,500</span></p>
+                                <p><strong>No. of Repayment(s): </strong><span id="monthsall"></span></p>
+                                <p><strong>Amount Per Installment: </strong>₦<span id="installmentAmount"></span></p>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <button class="btn btn-primary" onclick="submitLoan()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div><!-- container -->
+    </div>
+    <!-- end page content -->
+
+
+    <!-- Javascript  -->
+    <!-- vendor js -->
+
+    <script>
+        function updateRangeDetails(val) {
+            const loanAmount = parseInt(val);
+            const tenure = document.getElementById('default').value;
+
+            // Fee percentages
+            const interestRate = 0.03;
+            const managementFeeRate = 0.02;
+            const insuranceFeeRate = 0.01;
+            const processingFeeRate = 0.01;
+
+            // Calculations
+            const interest = Math.round(loanAmount * interestRate);
+            const management = Math.round(loanAmount * managementFeeRate);
+            const insurance = Math.round(loanAmount * insuranceFeeRate);
+            const processing = Math.round(loanAmount * processingFeeRate);
+            const totalFees = management + insurance + processing;
+            const amountRecieved = loanAmount - totalFees;
+            const total = loanAmount + interest;
+            const installment = Math.round(total / tenure);
+
+
+
+
+
+            // Update UI
+
+            document.getElementById('rangeValue').innerText = loanAmount.toLocaleString();
+            document.getElementById('monthsall').innerText = tenure;
+            document.getElementById('installmentAmount').innerText = installment.toLocaleString();
+            document.getElementById('interestAmount').innerText = interest.toLocaleString();
+            document.getElementById('managementAmount').innerText = management.toLocaleString();
+            document.getElementById('insuranceAmount').innerText = insurance.toLocaleString();
+            document.getElementById('processingAmount').innerText = processing.toLocaleString();
+            document.getElementById('totalfees').innerText = totalFees.toLocaleString();
+            document.getElementById('amountrecieved').innerText = amountRecieved.toLocaleString();
+            document.getElementById('totalRepayment').innerText = total.toLocaleString();
+        }
+
+        function submitLoan() {
+            const loanAmount = parseInt(document.getElementById('customRange1').value);
+            const tenure = document.getElementById('default').value;
+
+            // Fee percentages
+            const interestRate = 0.03;
+            const managementFeeRate = 0.02;
+            const insuranceFeeRate = 0.01;
+            const processingFeeRate = 0.01;
+
+            // Calculations
+            const interest = Math.round(loanAmount * interestRate);
+            const management = Math.round(loanAmount * managementFeeRate);
+            const insurance = Math.round(loanAmount * insuranceFeeRate);
+            const processing = Math.round(loanAmount * processingFeeRate);
+            const total = loanAmount + interest + management + insurance + processing;
+
+            alert(`Loan Requested: ₦${loanAmount.toLocaleString()}
+Tenure: ${tenure} month(s)
+Management Fee (2%): ₦${management.toLocaleString()}
+Insurance Fee (1%): ₦${insurance.toLocaleString()}
+Processing Fee (1%): ₦${processing.toLocaleString()}
+Interest (3%): ₦${interest.toLocaleString()}
+Total Repayment: ₦${total.toLocaleString()}`);
+
+            // Optional: Send this data to backend
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            const defaultValue = document.getElementById('customRange1').value;
+            updateRangeDetails(defaultValue);
+        };
+    </script>
+
+
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="assets/libs/mobius1-selectr/selectr.min.js"></script>
+    <script src="assets/js/pages/forms-advanced.js"></script>
+
+    <script src="assets/js/app.js"></script>
+</body>
+<!--end body-->
+
+</html>
