@@ -85,7 +85,7 @@ function executeExample(t) {
         });
     case "customImage":
       return void Swal.fire({
-        title: "Smartbank!",
+        title: "Smartfund!",
         text: "Modal with a Brand Logo.",
         imageUrl: "assets/images/logo-sm.png",
         imageWidth: 80,

@@ -280,7 +280,7 @@ var options = {
     {
       name: "Active Loans",
       // Example data: Represents the count of active loans each day of the week.
-      // Replace these with actual active loan counts for your SmartBank app.
+      // Replace these with actual active loan counts for your Smartfund app.
       data: [110, 115, 120, 125, 118, 130, 122],
     },
   ],
@@ -295,7 +295,7 @@ var options = {
       shadeIntensity: 1,
       opacityFrom: 0.7,
       opacityTo: 1,
-      // Adjust colors to suit your SmartBank theme.
+      // Adjust colors to suit your Smartfund theme.
       // This is a blueish-green gradient, which can signify growth or activity.
       colorStops: [
         { offset: 0, color: "rgb(2, 2, 107)", opacity: 1 }, // A brighter blue

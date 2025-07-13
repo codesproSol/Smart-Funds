@@ -4034,3 +4034,101 @@ ul.listree-submenu-items li a {
   padding-bottom: 12px;
 }
 /*# sourceMappingURL=app.min.css.map */
+
+/* Custom CSS for steps */
+.form-step {
+  display: none;
+  /* Hide all steps by default */
+}
+
+/* Custom CSS for steps with circular design */
+.form-step {
+  display: none;
+  /* Hide all steps by default */
+}
+
+.form-step.active {
+  display: block;
+  /* Show the active step */
+}
+
+/* Circular Progress Indicator Styles */
+.progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.progress-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #6c757d;
+  background-color: #fff;
+  z-index: 1;
+  /* Ensure circles are above lines */
+  transition: all 0.3s ease;
+}
+
+.progress-circle.active {
+  border-color: var(--bs-primary);
+  /* Active circle border */
+  color: var(--bs-primary);
+  /* Active circle number color */
+}
+
+.progress-circle.completed {
+  border-color: var(--bs-primary);
+  /* Completed circle border (green) */
+  background-color: var(--bs-primary);
+  /* Completed circle fill */
+  color: var(--bs-white);
+  /* Completed circle number color */
+}
+
+.progress-line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: var(--bs-gray-100);
+  margin: 0 -15px;
+  /* Overlap with circles to connect them */
+  z-index: 0;
+  /* Ensure lines are behind circles */
+  transition: background-color 0.3s ease;
+}
+
+.progress-line.completed {
+  background-color: var(--bs-secondary-color);
+  /* Completed line color (green) */
+}
+
+.image-preview-box {
+  width: 160px;
+  height: 200px;
+  border: 2px dashed var(--bs-gray-100);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: var(--bs-gray-500);
+  font-size: 0.8em;
+  text-align: center;
+  flex-shrink: 0;
+  /* Prevent it from shrinking */
+  overflow: hidden;
+}
+
+.image-preview-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  /* or 'cover' depending on desired crop/fit */
+}
