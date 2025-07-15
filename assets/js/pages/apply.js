@@ -1,8 +1,9 @@
 let currentStep = 0;
 const formSteps = document.querySelectorAll(".form-step");
 const progressCircles = document.querySelectorAll(".progress-circle");
-const progressLines = document.querySelectorAll(".progress-line"); // Get the lines
+const progressLines = document.querySelectorAll(".progress-line");
 const form = document.getElementById("loanApplicationForm");
+const messageBox = document.getElementById("messageBox");
 
 // Passport dimensions and max size constants
 const PASSPORT_MAX_SIZE_BYTES = 2 * 1024 * 1024; // 2MB in bytes
@@ -11,10 +12,29 @@ const PASSPORT_MAX_WIDTH = 600; // Example maximum width in pixels
 const PASSPORT_MIN_HEIGHT = 400; // Example minimum height in pixels
 const PASSPORT_MAX_HEIGHT = 800; // Example maximum height in pixels
 
-// Get preview elements
+// Get preview elements and clear button
 const passportPhotoInput = document.getElementById("passportPhoto");
 const passportPreviewImg = document.getElementById("passportPreview");
 const passportPlaceholder = document.getElementById("passportPlaceholder");
+const clearPassportPhotoButton = document.getElementById("clearPassportPhoto");
+
+// Get number-only input fields
+const bvnInput = document.getElementById("bvn");
+const ninInput = document.getElementById("nin");
+const phoneInput = document.getElementById("phone");
+const ippisOracleNumberInput = document.getElementById("ippisOracleNumber");
+const salaryAccountNumberInput = document.getElementById("salaryAccountNumber");
+const emailInput = document.getElementById("email");
+
+// --- Helper function for showing messages ---
+function showMessage(message, type = "success") {
+  messageBox.textContent = message;
+  messageBox.style.backgroundColor = type === "success" ? "#28a745" : "#dc3545"; // Green for success, red for error
+  messageBox.classList.add("show");
+  setTimeout(() => {
+    messageBox.classList.remove("show");
+  }, 3000); // Hide after 3 seconds
+}
 
 function updateProgressIndicator() {
   progressCircles.forEach((circle, index) => {
@@ -29,7 +49,6 @@ function updateProgressIndicator() {
   progressLines.forEach((line, index) => {
     line.classList.remove("completed");
     if (index < currentStep) {
-      // Line connects step 'index' to 'index + 1'
       line.classList.add("completed");
     }
   });
@@ -42,6 +61,18 @@ function showStep(stepIndex) {
   updateProgressIndicator();
 }
 
+// --- Clear Passport Photo Function ---
+function clearPassportPhoto() {
+  passportPhotoInput.value = ""; // Clear the selected file
+  passportPreviewImg.src = "#"; // Clear the image source
+  passportPreviewImg.style.display = "none"; // Hide the image
+  passportPlaceholder.style.display = "block"; // Show the placeholder text
+  passportPhotoInput.classList.remove("is-invalid"); // Remove validation feedback
+  document.getElementById("passportPhotoFeedback").textContent =
+    "Please upload your passport photograph."; // Reset feedback message
+  showMessage("Passport photo cleared.", "success");
+}
+
 // Function to validate passport photo size and dimensions
 async function validatePassportPhoto() {
   const feedbackElement = document.getElementById("passportPhotoFeedback");
@@ -51,10 +82,6 @@ async function validatePassportPhoto() {
   if (!passportPhotoInput.files.length) {
     isValid = false;
     feedbackMessage = "Please upload your passport photograph.";
-    // Clear preview if no file selected or invalid
-    passportPreviewImg.style.display = "none";
-    passportPlaceholder.style.display = "block";
-    passportPhotoInput.classList.add("is-invalid"); // Ensure it's marked invalid
   } else {
     const file = passportPhotoInput.files[0];
 
@@ -74,7 +101,6 @@ async function validatePassportPhoto() {
 
         await new Promise((resolve, reject) => {
           img.onload = () => {
-            // Check dimensions
             if (
               img.width < PASSPORT_MIN_WIDTH ||
               img.width > PASSPORT_MAX_WIDTH ||
@@ -84,7 +110,7 @@ async function validatePassportPhoto() {
               isValid = false;
               feedbackMessage = `Image dimensions must be between ${PASSPORT_MIN_WIDTH}x${PASSPORT_MIN_HEIGHT} and ${PASSPORT_MAX_WIDTH}x${PASSPORT_MAX_HEIGHT} pixels. Current: ${img.width}x${img.height}.`;
             }
-            URL.revokeObjectURL(objectURL); // Clean up
+            URL.revokeObjectURL(objectURL);
             resolve();
           };
           img.onerror = () => {
@@ -100,20 +126,28 @@ async function validatePassportPhoto() {
         isValid = false;
         feedbackMessage = "Error processing image for dimension check.";
       }
+    } else if (!file.type.startsWith("image/")) {
+      isValid = false;
+      feedbackMessage = "Please upload an image file (JPEG or PNG).";
     }
   }
 
   if (!isValid) {
     passportPhotoInput.classList.add("is-invalid");
     feedbackElement.textContent = feedbackMessage;
-    // Clear preview if no file selected or invalid
     passportPreviewImg.style.display = "none";
     passportPlaceholder.style.display = "block";
   } else {
     passportPhotoInput.classList.remove("is-invalid");
-    // If valid, ensure preview is shown (handled by the change listener)
   }
   return isValid;
+}
+
+// --- Email Validation Function ---
+function isValidEmail(email) {
+  // A common regex for email validation (can be more complex)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 }
 
 async function validateStep(stepIndex) {
@@ -139,26 +173,50 @@ async function validateStep(stepIndex) {
       isValid = false;
     }
 
-    const bvnInput = document.getElementById("bvn");
+    // BVN validation
     if (bvnInput && bvnInput.value.length !== 11) {
       bvnInput.classList.add("is-invalid");
+      bvnInput.nextElementSibling.textContent = "BVN must be 11 digits.";
       isValid = false;
     } else if (bvnInput) {
       bvnInput.classList.remove("is-invalid");
     }
 
-    const ninInput = document.getElementById("nin");
+    // NIN validation
     if (ninInput && ninInput.value.length !== 11) {
       ninInput.classList.add("is-invalid");
+      ninInput.nextElementSibling.textContent = "NIN must be 11 digits.";
       isValid = false;
     } else if (ninInput) {
       ninInput.classList.remove("is-invalid");
     }
+
+    // Phone number validation (simple check for now, can add length/format specific to Nigeria)
+    if (phoneInput && phoneInput.value.trim() === "") {
+      // Basic check for required
+      phoneInput.classList.add("is-invalid");
+      document.getElementById("phoneFeedback").textContent = "Please provide a valid phone number.";
+      isValid = false;
+    } else if (phoneInput) {
+      phoneInput.classList.remove("is-invalid");
+    }
+
+    // Email validation
+    if (emailInput && !isValidEmail(emailInput.value)) {
+      emailInput.classList.add("is-invalid");
+      document.getElementById("emailFeedback").textContent =
+        "Please enter a valid email address (e.g., example@domain.com).";
+      isValid = false;
+    } else if (emailInput) {
+      emailInput.classList.remove("is-invalid");
+    }
   } else if (stepIndex === 1) {
     // Employment Details step (final step)
-    const salaryAccountNumberInput = document.getElementById("salaryAccountNumber");
+    // Salary Account Number validation
     if (salaryAccountNumberInput && salaryAccountNumberInput.value.length !== 10) {
       salaryAccountNumberInput.classList.add("is-invalid");
+      salaryAccountNumberInput.nextElementSibling.textContent =
+        "Salary account number must be 10 digits.";
       isValid = false;
     } else if (salaryAccountNumberInput) {
       salaryAccountNumberInput.classList.remove("is-invalid");
@@ -196,6 +254,66 @@ function prevStep() {
   }
 }
 
+// --- Save Draft Functions ---
+function saveDraft() {
+  const formData = {};
+  form.querySelectorAll("input, select, textarea").forEach((element) => {
+    if (element.type === "file") {
+      // We can't save the file, but we can note if one was selected
+      formData[element.id] = element.files.length > 0 ? element.files[0].name : "";
+    } else if (element.type === "checkbox" || element.type === "radio") {
+      formData[element.id] = element.checked;
+    } else {
+      formData[element.id] = element.value;
+    }
+  });
+  localStorage.setItem("loanApplicationDraft", JSON.stringify(formData));
+  showMessage("Draft saved successfully!", "success");
+}
+
+function loadDraft() {
+  const savedData = localStorage.getItem("loanApplicationDraft");
+  if (savedData) {
+    const formData = JSON.parse(savedData);
+    for (const id in formData) {
+      const element = document.getElementById(id);
+      if (element) {
+        if (element.type === "checkbox" || element.type === "radio") {
+          element.checked = formData[id];
+        } else if (element.type !== "file") {
+          element.value = formData[id];
+        }
+        // For file inputs, if a name was saved, we can indicate it but the user must re-upload
+        if (element.type === "file" && formData[id]) {
+          // You might want to display a message like "Previously uploaded: filename.ext"
+          // For this example, we just clear it as the actual file isn't restored.
+          // However, we ensure the placeholder is shown and no invalid state.
+          passportPhotoInput.value = ""; // Ensure no ghost file is "selected"
+          passportPreviewImg.style.display = "none";
+          passportPlaceholder.style.display = "block";
+          passportPhotoInput.classList.remove("is-invalid");
+          document.getElementById(
+            "passportPhotoFeedback",
+          ).textContent = `Note: A file "${formData[id]}" was previously selected. Please re-upload if needed.`;
+          setTimeout(() => {
+            // Clear the note after some time
+            if (document.getElementById("passportPhotoFeedback").textContent.includes("Note:")) {
+              document.getElementById("passportPhotoFeedback").textContent =
+                "Please upload your passport photograph.";
+            }
+          }, 5000);
+        }
+      }
+    }
+    showMessage("Draft loaded!", "success");
+  }
+}
+
+function clearDraftStorage() {
+  localStorage.removeItem("loanApplicationDraft");
+}
+
+// Handle form submission
 form.addEventListener(
   "submit",
   async function (event) {
@@ -206,15 +324,45 @@ form.addEventListener(
     formSteps[formSteps.length - 1].classList.add("was-validated");
 
     if (finalStepIsValid) {
-      alert("Loan request submitted successfully!");
+      showMessage("Loan request submitted successfully!", "success");
+      clearDraftStorage(); // Clear draft on successful submission
+      setTimeout(() => {
+        form.reset(); // Reset form after successful submission and message
+        showStep(0); // Go back to the first step
+        clearPassportPhoto(); // Ensure passport photo preview is also cleared
+      }, 1500); // Give time for message to display
     } else {
+      showMessage("Please correct the errors before submitting.", "error");
       showStep(formSteps.length - 1);
     }
   },
   false,
 );
 
-// --- New JavaScript for Image Preview ---
+// --- Number-only Input Restriction ---
+function setNumberOnly(inputElement) {
+  if (inputElement) {
+    inputElement.addEventListener("input", function () {
+      // Remove any character that is not a digit
+      this.value = this.value.replace(/\D/g, "");
+    });
+    // Also add a paste listener to clean pasted content
+    inputElement.addEventListener("paste", function (event) {
+      const pasteData = event.clipboardData.getData("text");
+      this.value = pasteData.replace(/\D/g, "");
+      event.preventDefault(); // Prevent default paste behavior
+    });
+  }
+}
+
+// Apply number-only restriction to relevant fields
+setNumberOnly(bvnInput);
+setNumberOnly(ninInput);
+setNumberOnly(phoneInput);
+setNumberOnly(ippisOracleNumberInput); // If IPPIS/Oracle is purely numeric
+setNumberOnly(salaryAccountNumberInput);
+
+// --- Event Listeners and Initial Load ---
 passportPhotoInput.addEventListener("change", function () {
   if (this.files && this.files[0]) {
     const file = this.files[0];
@@ -222,19 +370,20 @@ passportPhotoInput.addEventListener("change", function () {
 
     reader.onload = function (e) {
       passportPreviewImg.src = e.target.result;
-      passportPreviewImg.style.display = "block"; // Show the image
-      passportPlaceholder.style.display = "none"; // Hide the placeholder text
+      passportPreviewImg.style.display = "block";
+      passportPlaceholder.style.display = "none";
     };
-
-    reader.readAsDataURL(file); // Read the file as a data URL
+    reader.readAsDataURL(file);
   } else {
-    passportPreviewImg.src = "#"; // Clear the image source
-    passportPreviewImg.style.display = "none"; // Hide the image
-    passportPlaceholder.style.display = "block"; // Show the placeholder text
+    passportPreviewImg.src = "#";
+    passportPreviewImg.style.display = "none";
+    passportPlaceholder.style.display = "block";
   }
-  // Re-validate the passport photo immediately after a change
-  validatePassportPhoto();
+  validatePassportPhoto(); // Validate immediately on change
 });
 
-// Initial display
+clearPassportPhotoButton.addEventListener("click", clearPassportPhoto);
+
+// Initial display and load draft
 showStep(currentStep);
+loadDraft(); // Attempt to load draft on page load
