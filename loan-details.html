@@ -25,6 +25,101 @@
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
 
+    <style>
+        .card-detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+            /* Light gray border */
+        }
+
+        .card-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .bg-green-200 {
+            background-color: #d1fae5;
+        }
+
+        .text-green-800 {
+            color: #065f46;
+        }
+
+        .bg-red-200 {
+            background-color: #fee2e2;
+        }
+
+        .text-red-800 {
+            color: #991b1b;
+        }
+
+        .bg-yellow-200 {
+            background-color: #fef3c7;
+        }
+
+        .text-yellow-800 {
+            color: #92400e;
+        }
+
+        .bg-blue-200 {
+            background-color: #dbeafe;
+        }
+
+        .text-blue-800 {
+            color: #1e40af;
+        }
+
+        .badge {
+            padding: 0.25em 0.5em;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Styles for action buttons */
+        .action-btn {
+            padding: 0.4rem;
+            border-radius: 0.375rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-style: none;
+            outline: none;
+        }
+
+        .action-btn.edit {
+            background-color: #dbeafe;
+            /* blue-200 */
+            color: #1e40af;
+            /* blue-800 */
+        }
+
+        .action-btn.edit:hover {
+            background-color: #bfdbfe;
+            /* blue-300 */
+        }
+
+        .action-btn.delete {
+            background-color: #fee2e2;
+            /* red-200 */
+            color: #991b1b;
+            /* red-800 */
+        }
+
+        .action-btn.delete:hover {
+            background-color: #fecaca;
+            /* red-300 */
+        }
+
+        .action-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+    </style>
+
 </head>
 
 
@@ -807,102 +902,253 @@
         <!-- Page Content-->
         <div class="page-content">
             <div class="container-xxl">
-                <div class="row justify-content-center py-4">
+                <div class="row justify-content-center p-2">
                     <div class="col-12">
 
                         <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h4 class="card-title">Loan History Overview</h4>
-                                </div><!--end col-->
-                            </div> <!--end row-->
+                            <div style="display: flex; align-items: center; justify-content: space-between;"
+                                class="mb-4">
+                                <h2 class="text-3xl font-bold text-gray-800">Loan Details</h2>
+                                <button onclick="history.back()"
+                                    style="border-style: none; background: transparent; text-align: right; margin-top: -10px; "
+                                    class="px-4 py-2  text-primary rounded-md shadow-md">
+                                    Back
+                                </button>
+                            </div>
                         </div><!--end card-header-->
-                        <!-- Loan Summary Cards -->
-                        <div class="row mt-4 px-2">
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row d-flex justify-content-center border-dashed-bottom pb-3">
-                                            <div class="col-9">
-                                                <p class="text-dark mb-0 fw-semibold fs-14">Total Loans</p>
-                                                <h3 class="mt-2 mb-0 fw-bold">12</h3>
-                                            </div>
-                                            <div class="col-3 align-self-center">
-                                                <div
-                                                    class="d-flex justify-content-center align-items-center thumb-xl bg-light rounded-circle mx-auto">
-                                                    <i
-                                                        class="iconoir-bank h1 align-self-center mb-0 text-secondary"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="mb-0 text-truncate text-muted mt-3">Overall number of loans.
-                                        </p>
-                                    </div>
+
+
+                        <!-- Loan Details Card -->
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+                            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Loan ID: <span id="loanId"
+                                    class="text-blue-600">#L003</span></h3>
+
+                            <div class="space-y-2">
+                                <div class="card-detail-item">
+                                    <span class="font-medium text-gray-600">Amount:</span>
+                                    <span id="loanAmount" class="text-gray-800 font-semibold">₦25,000</span>
+                                </div>
+                                <div class="card-detail-item">
+                                    <span class="font-medium text-gray-600">Purpose:</span>
+                                    <span id="loanPurpose" class="text-gray-800">Business Investment</span>
+                                </div>
+                                <div class="card-detail-item">
+                                    <span class="font-medium text-gray-600">Status:</span>
+                                    <span id="loanStatus"
+                                        class="px-3 py-1 rounded-full text-sm font-semibold bg-green-200 text-green-800">Active</span>
+                                </div>
+                                <div class="card-detail-item">
+                                    <span class="font-medium text-gray-600">Application Date:</span>
+                                    <span id="applicationDate" class="text-gray-800">2023-06-10</span>
+                                </div>
+                                <div class="card-detail-item">
+                                    <span class="font-medium text-gray-600">Due Date:</span>
+                                    <span id="dueDate" class="text-gray-800">2025-06-10</span>
+                                </div>
+                                <div class="card-detail-item">
+                                    <span class="font-medium text-gray-600">Interest Rate:</span>
+                                    <span id="interestRate" class="text-gray-800">5.5% Annual</span>
+                                </div>
+                                <div class="card-detail-item">
+                                    <span class="font-medium text-gray-600">Repayment Frequency:</span>
+                                    <span id="repaymentFrequency" class="text-gray-800">Monthly</span>
+                                </div>
+                                <div class="card-detail-item">
+                                    <span class="font-medium text-gray-600">Remaining Balance:</span>
+                                    <span id="remainingBalance" class="text-red-600 font-bold">₦18,000</span>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4">
+                        </div>
+
+                        <div class="row justify-content-center mt-8">
+                            <div class="col-12">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="row d-flex justify-content-center border-dashed-bottom pb-3">
-                                            <div class="col-9">
-                                                <p class="text-dark mb-0 fw-semibold fs-14">Active Loans</p>
-                                                <h3 class="mt-2 mb-0 fw-bold">3</h3>
-                                            </div>
-                                            <div class="col-3 align-self-center">
-                                                <div
-                                                    class="d-flex justify-content-center align-items-center thumb-xl bg-light rounded-circle mx-auto">
-                                                    <i
-                                                        class="iconoir-credit-card h1 align-self-center mb-0 text-secondary"></i>
-                                                </div>
+                                    <div class="card-header">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h4 class="card-title text-xl font-semibold text-gray-700">Repayment
+                                                    History</h4>
+                                            </div><!--end col-->
+                                        </div> <!--end row-->
+                                    </div><!--end card-header-->
+                                    <div class="card-body pt-0">
+                                        <div class="table-responsive">
+                                            <table class="table datatable table-striped table-hover mb-0"
+                                                id="datatable_2">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-column="0">Payment ID</th>
+                                                        <th data-column="1">Date</th>
+                                                        <th data-column="2">Amount Paid</th>
+                                                        <th data-column="3">Principal</th>
+                                                        <th data-column="4">Interest</th>
+                                                        <th data-column="5">Status</th>
+                                                        <th>Actions</th> <!-- New column for actions -->
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>#P001</td>
+                                                        <td>2023-07-10</td>
+                                                        <td>₦500</td>
+                                                        <td>₦400</td>
+                                                        <td>₦100</td>
+                                                        <td><span class="badge bg-green-200 text-green-800">Paid</span>
+                                                        </td>
+                                                        <td class="flex space-x-2">
+                                                            <button class="action-btn edit" title="Edit Payment">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14.25v4.5m-6.75-6.75h.008v.008H11.25v-.008Z" />
+                                                                </svg>
+                                                            </button>
+                                                            <button class="action-btn delete" title="Delete Payment">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.92c-.75 0-1.46-.384-1.844-1.077L4.74 5.79m14.426 0H13.5m-10.5 0H5.25m5.625 0h.008v.008H10.875V5.79ZM3.75 6.75h16.5" />
+                                                                </svg>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>#P002</td>
+                                                        <td>2023-08-10</td>
+                                                        <td>₦500</td>
+                                                        <td>₦405</td>
+                                                        <td>₦95</td>
+                                                        <td><span class="badge bg-green-200 text-green-800">Paid</span>
+                                                        </td>
+                                                        <td class="flex space-x-2">
+                                                            <button class="action-btn edit" title="Edit Payment">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14.25v4.5m-6.75-6.75h.008v.008H11.25v-.008Z" />
+                                                                </svg>
+                                                            </button>
+                                                            <button class="action-btn delete" title="Delete Payment">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.92c-.75 0-1.46-.384-1.844-1.077L4.74 5.79m14.426 0H13.5m-10.5 0H5.25m5.625 0h.008v.008H10.875V5.79ZM3.75 6.75h16.5" />
+                                                                </svg>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>#P003</td>
+                                                        <td>2023-09-10</td>
+                                                        <td>₦500</td>
+                                                        <td>₦410</td>
+                                                        <td>₦90</td>
+                                                        <td><span class="badge bg-green-200 text-green-800">Paid</span>
+                                                        </td>
+                                                        <td class="flex space-x-2">
+                                                            <button class="action-btn edit" title="Edit Payment">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14.25v4.5m-6.75-6.75h.008v.008H11.25v-.008Z" />
+                                                                </svg>
+                                                            </button>
+                                                            <button class="action-btn delete" title="Delete Payment">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.92c-.75 0-1.46-.384-1.844-1.077L4.74 5.79m14.426 0H13.5m-10.5 0H5.25m5.625 0h.008v.008H10.875V5.79ZM3.75 6.75h16.5" />
+                                                                </svg>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>#P004</td>
+                                                        <td>2023-10-10</td>
+                                                        <td>₦500</td>
+                                                        <td>₦415</td>
+                                                        <td>₦85</td>
+                                                        <td><span
+                                                                class="badge bg-yellow-200 text-yellow-800">Pending</span>
+                                                        </td>
+                                                        <td class="flex space-x-2">
+                                                            <button class="action-btn edit" title="Edit Payment">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14.25v4.5m-6.75-6.75h.008v.008H11.25v-.008Z" />
+                                                                </svg>
+                                                            </button>
+                                                            <button class="action-btn delete" title="Delete Payment">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.92c-.75 0-1.46-.384-1.844-1.077L4.74 5.79m14.426 0H13.5m-10.5 0H5.25m5.625 0h.008v.008H10.875V5.79ZM3.75 6.75h16.5" />
+                                                                </svg>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>#P005</td>
+                                                        <td>2023-11-10</td>
+                                                        <td>₦500</td>
+                                                        <td>₦420</td>
+                                                        <td>₦80</td>
+                                                        <td><span class="badge bg-red-200 text-red-800">Overdue</span>
+                                                        </td>
+                                                        <td class="flex space-x-2">
+                                                            <button class="action-btn edit" title="Edit Payment">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14.25v4.5m-6.75-6.75h.008v.008H11.25v-.008Z" />
+                                                                </svg>
+                                                            </button>
+                                                            <button class="action-btn delete" title="Delete Payment">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="w-4 h-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.92c-.75 0-1.46-.384-1.844-1.077L4.74 5.79m14.426 0H13.5m-10.5 0H5.25m5.625 0h.008v.008H10.875V5.79ZM3.75 6.75h16.5" />
+                                                                </svg>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="mt-4 flex space-x-2">
+                                                <button type="button" class="btn btn-sm btn-primary csv">Export
+                                                    CSV</button>
+                                                <button type="button" class="btn btn-sm btn-primary sql">Export
+                                                    SQL</button>
+                                                <button type="button" class="btn btn-sm btn-primary txt">Export
+                                                    TXT</button>
+                                                <button type="button" class="btn btn-sm btn-primary json">Export
+                                                    JSON</button>
                                             </div>
                                         </div>
-                                        <p class="mb-0 text-truncate text-muted mt-3">Loans currently being
-                                            repaid.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row d-flex justify-content-center border-dashed-bottom pb-3">
-                                            <div class="col-9">
-                                                <p class="text-dark mb-0 fw-semibold fs-14">Total Borrowed</p>
-                                                <h3 class="mt-2 mb-0 fw-bold">$150,000</h3>
-                                            </div>
-                                            <div class="col-3 align-self-center">
-                                                <div
-                                                    class="d-flex justify-content-center align-items-center thumb-xl bg-light rounded-circle mx-auto">
-                                                    <i
-                                                        class="iconoir-coin h1 align-self-center mb-0 text-secondary"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="mb-0 text-truncate text-muted mt-3">Total amount borrowed
-                                            across all loans.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row d-flex justify-content-center border-dashed-bottom pb-3">
-                                            <div class="col-9">
-                                                <p class="text-dark mb-0 fw-semibold fs-14">Total Repaid</p>
-                                                <h3 class="mt-2 mb-0 fw-bold">$85,000</h3>
-                                            </div>
-                                            <div class="col-3 align-self-center">
-                                                <div
-                                                    class="d-flex justify-content-center align-items-center thumb-xl bg-light rounded-circle mx-auto">
-                                                    <i
-                                                        class="iconoir-receive-dollars h1 align-self-center mb-0 text-secondary"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <p class="mb-0 text-truncate text-muted mt-3">Total amount repaid across
-                                            all loans.</p>
-                                    </div>
-                                </div>
-                            </div>
+                                    </div><!--end card-body-->
+                                </div><!--end card-->
+                            </div> <!--end col-->
+                        </div><!--end row-->
+
+                        <!-- Additional Information (Optional) -->
+                        <div class="mt-8">
+                            <h3 class="text-xl font-semibold text-gray-700 mb-3">Notes</h3>
+                            <p class="text-gray-700 bg-gray-50 p-4 rounded-md shadow-inner">
+                                This loan is for expanding the business operations. Regular payments are being made on
+                                time.
+                                The next payment is due on July 10, 2024.
+                            </p>
                         </div>
 
                         <!-- Loan History Table -->
@@ -911,102 +1157,7 @@
 
                     </div><!--end row-->
 
-                    <div class="row justify-content-center">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <h4 class="card-title">Loan History Details</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body pt-0">
-                                    <div class="table-responsive">
-                                        <table class="table datatable table-striped table-hover mb-0" id="datatable_2">
-                                            <thead>
-                                                <tr>
-                                                    <th>Loan ID</th>
-                                                    <th>Amount</th>
-                                                    <th>Purpose</th>
-                                                    <th>Status</th>
-                                                    <th data-type="date" data-format="YYYY-MM-DD">Application Date</th>
-                                                    <th data-type="date" data-format="YYYY-MM-DD">Due Date</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>#L001</td>
-                                                    <td>$10,000</td>
-                                                    <td>Home Renovation</td>
-                                                    <td><span class="badge bg-success">Paid</span></td>
-                                                    <td>2023-01-15</td>
-                                                    <td>2024-01-15</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#L002</td>
-                                                    <td>$5,000</td>
-                                                    <td>Education</td>
-                                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                                    <td>2023-03-20</td>
-                                                    <td>2024-03-20</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#L003</td>
-                                                    <td>$25,000</td>
-                                                    <td>Business Investment</td>
-                                                    <td><span class="badge bg-info">Active</span></td>
-                                                    <td>2023-06-10</td>
-                                                    <td>2025-06-10</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#L004</td>
-                                                    <td>$7,500</td>
-                                                    <td>Debt Consolidation</td>
-                                                    <td><span class="badge bg-danger">Overdue</span></td>
-                                                    <td>2023-09-01</td>
-                                                    <td>2024-09-01</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#L005</td>
-                                                    <td>$12,000</td>
-                                                    <td>Medical Expenses</td>
-                                                    <td><span class="badge bg-success">Paid</span></td>
-                                                    <td>2023-11-05</td>
-                                                    <td>2024-11-05</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#L006</td>
-                                                    <td>$8,000</td>
-                                                    <td>Vehicle Purchase</td>
-                                                    <td><span class="badge bg-info">Active</span></td>
-                                                    <td>2024-02-18</td>
-                                                    <td>2025-02-18</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <button type="button" class="btn btn-sm btn-primary csv">Export CSV</button>
-                                        <button type="button" class="btn btn-sm btn-primary sql">Export SQL</button>
-                                        <button type="button" class="btn btn-sm btn-primary txt">Export TXT</button>
-                                        <button type="button" class="btn btn-sm btn-primary json">Export JSON</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
 
 
 
@@ -1087,7 +1238,7 @@
 
     <!-- Javascript  -->
     <!-- vendor js -->
-
+    <script src="assets/js/pages/loan-details.js"></script>
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/simple-datatables/umd/simple-datatables.js"></script>
