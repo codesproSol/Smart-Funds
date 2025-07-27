@@ -6,7 +6,7 @@ const form = document.getElementById("loanApplicationForm");
 const messageBox = document.getElementById("messageBox");
 
 // Passport dimensions and max size constants
-const PASSPORT_MAX_SIZE_BYTES = 2 * 1024 * 1024; // 2MB in bytes
+const PASSPORT_MAX_SIZE_BYTES = 5 * 1024 * 1024; // 2MB in bytes
 const PASSPORT_MIN_WIDTH = 300; // Example minimum width in pixels
 const PASSPORT_MAX_WIDTH = 600; // Example maximum width in pixels
 const PASSPORT_MIN_HEIGHT = 400; // Example minimum height in pixels
@@ -85,48 +85,16 @@ async function validatePassportPhoto() {
   } else {
     const file = passportPhotoInput.files[0];
 
-    // Validate file size
+    // ✅ Validate file size only
     if (file.size > PASSPORT_MAX_SIZE_BYTES) {
       isValid = false;
-      feedbackMessage = `File size exceeds 2MB. Current size: ${(file.size / (1024 * 1024)).toFixed(
+      feedbackMessage = `File size exceeds 5MB. Current size: ${(file.size / (1024 * 1024)).toFixed(
         2,
       )} MB.`;
     }
 
-    // Validate image dimensions (asynchronous operation)
-    if (file.type.startsWith("image/") && isValid) {
-      try {
-        const img = new Image();
-        const objectURL = URL.createObjectURL(file);
-
-        await new Promise((resolve, reject) => {
-          img.onload = () => {
-            if (
-              img.width < PASSPORT_MIN_WIDTH ||
-              img.width > PASSPORT_MAX_WIDTH ||
-              img.height < PASSPORT_MIN_HEIGHT ||
-              img.height > PASSPORT_MAX_HEIGHT
-            ) {
-              isValid = false;
-              feedbackMessage = `Image dimensions must be between ${PASSPORT_MIN_WIDTH}x${PASSPORT_MIN_HEIGHT} and ${PASSPORT_MAX_WIDTH}x${PASSPORT_MAX_HEIGHT} pixels. Current: ${img.width}x${img.height}.`;
-            }
-            URL.revokeObjectURL(objectURL);
-            resolve();
-          };
-          img.onerror = () => {
-            isValid = false;
-            feedbackMessage = "Could not load image to check dimensions.";
-            URL.revokeObjectURL(objectURL);
-            reject("Image load error");
-          };
-          img.src = objectURL;
-        });
-      } catch (error) {
-        console.error("Error validating image dimensions:", error);
-        isValid = false;
-        feedbackMessage = "Error processing image for dimension check.";
-      }
-    } else if (!file.type.startsWith("image/")) {
+    // ✅ Check if it's an image file (optional, still recommended)
+    if (!file.type.startsWith("image/")) {
       isValid = false;
       feedbackMessage = "Please upload an image file (JPEG or PNG).";
     }
@@ -313,6 +281,17 @@ function clearDraftStorage() {
   localStorage.removeItem("loanApplicationDraft");
 }
 
+function clearValidationStates() {
+  // Remove validation styling
+  form.querySelectorAll(".is-invalid, .was-validated").forEach((el) => {
+    el.classList.remove("is-invalid", "was-validated", "is-valid");
+  });
+
+  // Reset feedback text (optional)
+  const feedbacks = form.querySelectorAll(".invalid-feedback");
+  feedbacks.forEach((el) => (el.textContent = ""));
+}
+
 // Handle form submission
 form.addEventListener(
   "submit",
@@ -330,6 +309,8 @@ form.addEventListener(
         form.reset(); // Reset form after successful submission and message
         showStep(0); // Go back to the first step
         clearPassportPhoto(); // Ensure passport photo preview is also cleared
+        clearValidationStates();
+        window.location.reload();
       }, 1500); // Give time for message to display
     } else {
       showMessage("Please correct the errors before submitting.", "error");
@@ -359,7 +340,7 @@ function setNumberOnly(inputElement) {
 setNumberOnly(bvnInput);
 setNumberOnly(ninInput);
 setNumberOnly(phoneInput);
-setNumberOnly(ippisOracleNumberInput); // If IPPIS/Oracle is purely numeric
+// setNumberOnly(ippisOracleNumberInput); // If IPPIS/Oracle is purely numeric
 setNumberOnly(salaryAccountNumberInput);
 
 // --- Event Listeners and Initial Load ---
