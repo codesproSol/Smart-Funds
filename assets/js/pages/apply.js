@@ -170,13 +170,34 @@ async function validateStep(stepIndex) {
     }
 
     // Email validation
-    if (emailInput && !isValidEmail(emailInput.value)) {
-      emailInput.classList.add("is-invalid");
-      document.getElementById("emailFeedback").textContent =
-        "Please enter a valid email address (e.g., example@domain.com).";
-      isValid = false;
-    } else if (emailInput) {
-      emailInput.classList.remove("is-invalid");
+    // Email validation (only if not empty)
+    if (emailInput) {
+      const emailValue = emailInput.value.trim();
+      if (emailValue !== "" && !isValidEmail(emailValue)) {
+        emailInput.classList.add("is-invalid");
+        document.getElementById("emailFeedback").textContent =
+          "Please enter a valid email address (e.g., example@domain.com).";
+        isValid = false;
+      } else {
+        emailInput.classList.remove("is-invalid");
+      }
+    }
+
+    const dobInput = document.getElementById("dob");
+
+    if (dobInput) {
+      const dobValue = dobInput.value;
+      const dobDate = new Date(dobValue);
+      const today = new Date();
+      const ageLimitDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
+
+      if (!dobValue || dobDate > ageLimitDate) {
+        dobInput.classList.add("is-invalid");
+        document.getElementById("dobFeedback").textContent = "You must be at least 16 years old.";
+        isValid = false;
+      } else {
+        dobInput.classList.remove("is-invalid");
+      }
     }
   } else if (stepIndex === 1) {
     // Employment Details step (final step)
@@ -188,6 +209,22 @@ async function validateStep(stepIndex) {
       isValid = false;
     } else if (salaryAccountNumberInput) {
       salaryAccountNumberInput.classList.remove("is-invalid");
+    }
+
+    const employmentDateInput = document.getElementById("employmentDate");
+
+    if (employmentDateInput) {
+      const selectedDate = new Date(employmentDateInput.value);
+      const today = new Date();
+
+      if (!employmentDateInput.value || selectedDate > today) {
+        employmentDateInput.classList.add("is-invalid");
+        document.getElementById("employmentDateFeedback").textContent =
+          "Employment date cannot be in the future.";
+        isValid = false;
+      } else {
+        employmentDateInput.classList.remove("is-invalid");
+      }
     }
 
     const agreeTermsCheckbox = document.getElementById("agreeTerms");
@@ -368,3 +405,20 @@ clearPassportPhotoButton.addEventListener("click", clearPassportPhoto);
 // Initial display and load draft
 showStep(currentStep);
 loadDraft(); // Attempt to load draft on page load
+
+// Set max date on DOB input (on page load)
+window.addEventListener("DOMContentLoaded", () => {
+  const dobInput = document.getElementById("dob");
+  if (dobInput) {
+    const today = new Date();
+    const maxDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
+    dobInput.max = maxDate.toISOString().split("T")[0];
+  }
+
+  const employmentDateInput = document.getElementById("employmentDate");
+  if (employmentDateInput) {
+    const today = new Date();
+    const todayStr = today.toISOString().split("T")[0];
+    employmentDateInput.max = todayStr;
+  }
+});
