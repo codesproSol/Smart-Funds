@@ -388,3 +388,23 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial state: ensure no card is active and table is hidden
   resetDashboardView();
 });
+
+document.querySelectorAll(".filter-option").forEach((option) => {
+  option.addEventListener("click", function (e) {
+    e.preventDefault();
+    const status = this.getAttribute("data-status").toLowerCase();
+    const rows = document.querySelectorAll("table tbody tr");
+
+    rows.forEach((row) => {
+      const rowStatus = row
+        .querySelector("td:nth-last-child(2) span")
+        .textContent.trim()
+        .toLowerCase();
+      if (status === "all" || rowStatus === status) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
+  });
+});

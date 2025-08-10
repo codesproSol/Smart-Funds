@@ -3501,19 +3501,19 @@ fieldset:disabled .btn {
   --bs-btn-disabled-border-color: #2b2d3b;
 }
 .btn-outline-primary {
-  --bs-btn-color: #22c55e;
-  --bs-btn-border-color: #22c55e;
+  --bs-btn-color: #041776;
+  --bs-btn-border-color: #041776;
   --bs-btn-hover-color: #ffffff;
-  --bs-btn-hover-bg: #22c55e;
-  --bs-btn-hover-border-color: #22c55e;
+  --bs-btn-hover-bg: #041776;
+  --bs-btn-hover-border-color: #041776;
   --bs-btn-focus-shadow-rgb: 34, 197, 94;
   --bs-btn-active-color: #ffffff;
-  --bs-btn-active-bg: #22c55e;
-  --bs-btn-active-border-color: #22c55e;
+  --bs-btn-active-bg: #082098;
+  --bs-btn-active-border-color: #082098;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  --bs-btn-disabled-color: #22c55e;
+  --bs-btn-disabled-color: #04177696;
   --bs-btn-disabled-bg: transparent;
-  --bs-btn-disabled-border-color: #22c55e;
+  --bs-btn-disabled-border-color: #04177696;
   --bs-gradient: none;
 }
 .btn-outline-secondary {
@@ -5210,7 +5210,7 @@ fieldset:disabled .btn {
   float: left;
   padding-right: var(--bs-breadcrumb-item-padding-x);
   color: var(--bs-breadcrumb-divider-color);
-  content: var(--bs-breadcrumb-divider, "https://codesproSoft.com/");
+  content: var(--bs-breadcrumb-divider, "https://https://codesprosoft.com/");
 }
 .breadcrumb-item.active {
   color: var(--bs-breadcrumb-item-active-color);

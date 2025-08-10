@@ -4151,3 +4151,8 @@ ul.listree-submenu-items li a {
   display: block;
   opacity: 1;
 }
+
+.text-nowrap{
+  text-wrap: no-wrap;
+  white-space: nowrap;
+}
