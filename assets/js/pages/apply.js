@@ -234,6 +234,24 @@ async function validateStep(stepIndex) {
     } else if (agreeTermsCheckbox) {
       agreeTermsCheckbox.classList.remove("is-invalid");
     }
+  } else if (stepIndex === 2) {
+    // Uploads step
+    const idCardInput = document.getElementById("idCard");
+    const payrollInput = document.getElementById("payroll");
+
+    if (!idCardInput.files.length) {
+      idCardInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      idCardInput.classList.remove("is-invalid");
+    }
+
+    if (!payrollInput.files.length) {
+      payrollInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      payrollInput.classList.remove("is-invalid");
+    }
   }
 
   return isValid;
@@ -422,3 +440,32 @@ window.addEventListener("DOMContentLoaded", () => {
     employmentDateInput.max = todayStr;
   }
 });
+
+function setupFilePreview(inputId, previewId) {
+  const fileInput = document.getElementById(inputId);
+  const previewContainer = document.getElementById(previewId);
+
+  fileInput.addEventListener("change", function () {
+    const file = fileInput.files[0];
+
+    if (!file) {
+      previewContainer.innerHTML = "No file chosen";
+      return;
+    }
+
+    const fileType = file.type;
+    const fileURL = URL.createObjectURL(file);
+
+    if (fileType.startsWith("image/")) {
+      previewContainer.innerHTML = `<img src="${fileURL}" alt="Preview" class="img-fluid" style="max-height: 200px;">`;
+    } else if (fileType === "application/pdf") {
+      previewContainer.innerHTML = `<embed src="${fileURL}" type="application/pdf" width="100%" height="200px">`;
+    } else {
+      previewContainer.textContent = file.name;
+    }
+  });
+}
+
+// Initialize previews for both uploads
+setupFilePreview("idCard", "idCardPreview");
+setupFilePreview("payroll", "payrollPreview");

@@ -116,6 +116,8 @@
                                     <div class="progress-circle active" id="circle-step-0">1</div>
                                     <div class="progress-line" id="line-0-1"></div>
                                     <div class="progress-circle" id="circle-step-1">2</div>
+                                    <div class="progress-line" id="line-0-1"></div>
+                                    <div class="progress-circle" id="circle-step-2">2</div>
                                 </div>
 
                                 <form class="row g-3 needs-validation" novalidate id="loanApplicationForm">
@@ -315,9 +317,58 @@
                                                 onclick="prevStep()">Previous</button>
                                             <button type="button" class="btn btn-secondary me-2"
                                                 onclick="saveDraft()">Save Draft</button>
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="nextStep()">Next</button>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-step" id="step3">
+                                        <h5>Upload Documents</h5>
+                                        <hr>
+                                        <div class="row g-3">
+                                            <!-- ID Card Upload -->
+                                            <div class="col-md-6">
+                                                <label for="idCard" class="form-label">Upload ID Card</label>
+                                                <input type="file" class="form-control" id="idCard"
+                                                    accept=".jpg,.jpeg,.png,.pdf" required>
+                                                <div id="idCardPreview"
+                                                    class="mt-2 border p-2 text-center small text-muted">
+                                                    No file chosen
+                                                </div>
+                                                <div class="invalid-feedback">Please upload a valid ID card (JPG, PNG,
+                                                    or PDF).</div>
+                                            </div>
+
+                                            <!-- Payroll Upload -->
+                                            <div class="col-md-6">
+                                                <label for="payroll" class="form-label">Upload Payroll</label>
+                                                <input type="file" class="form-control" id="payroll"
+                                                    accept=".jpg,.jpeg,.png,.pdf" required>
+                                                <div id="payrollPreview"
+                                                    class="mt-2 border p-2 text-center small text-muted">
+                                                    No file chosen
+                                                </div>
+                                                <div class="invalid-feedback">Please upload your payroll document (JPG,
+                                                    PNG, or PDF).</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 mt-3">
+                                            <div class="alert alert-info small">Maximum file size: 5MB per document.
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 mt-4 d-flex justify-content-between">
+                                            <button type="button" class="btn btn-secondary"
+                                                onclick="prevStep()">Previous</button>
+                                            <button type="button" class="btn btn-secondary me-2"
+                                                onclick="saveDraft()">Save Draft</button>
                                             <button class="btn btn-primary" type="submit">Submit Loan Request</button>
                                         </div>
                                     </div>
+
+
 
                                 </form>
                             </div>

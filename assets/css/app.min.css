@@ -4152,7 +4152,12 @@ ul.listree-submenu-items li a {
   opacity: 1;
 }
 
-.text-nowrap{
+.text-nowrap {
   text-wrap: no-wrap;
+  white-space: nowrap;
+}
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
