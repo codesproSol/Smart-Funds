@@ -4161,3 +4161,28 @@ ul.listree-submenu-items li a {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.header-actions {
+  float: right;
+}
+.edit-input {
+  display: none;
+  width: 100%;
+}
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #fff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

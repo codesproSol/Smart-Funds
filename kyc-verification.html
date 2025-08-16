@@ -25,8 +25,100 @@
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
 
-
     <style>
+        .card-detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+            /* Light gray border */
+        }
+
+        .card-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .bg-green-200 {
+            background-color: #d1fae5;
+        }
+
+        .text-green-800 {
+            color: #065f46;
+        }
+
+        .bg-red-200 {
+            background-color: #fee2e2;
+        }
+
+        .text-red-800 {
+            color: #991b1b;
+        }
+
+        .bg-yellow-200 {
+            background-color: #fef3c7;
+        }
+
+        .text-yellow-800 {
+            color: #92400e;
+        }
+
+        .bg-blue-200 {
+            background-color: #dbeafe;
+        }
+
+        .text-blue-800 {
+            color: #1e40af;
+        }
+
+        .badge {
+            padding: 0.25em 0.5em;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Styles for action buttons */
+        .action-btn {
+            padding: 0.4rem;
+            border-radius: 0.375rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-style: none;
+            outline: none;
+        }
+
+        .action-btn.edit {
+            background-color: #dbeafe;
+            /* blue-200 */
+            color: #1e40af;
+            /* blue-800 */
+        }
+
+        .action-btn.edit:hover {
+            background-color: #bfdbfe;
+            /* blue-300 */
+        }
+
+        .action-btn.delete {
+            background-color: #fee2e2;
+            /* red-200 */
+            color: #991b1b;
+            /* red-800 */
+        }
+
+        .action-btn.delete:hover {
+            background-color: #fecaca;
+            /* red-300 */
+        }
+
+        .action-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
         .photo-preview {
             width: 100%;
             height: 240px;
@@ -35,7 +127,18 @@
             background: #f8f9fa;
             display: block;
         }
+
+        .field-label {
+            width: 160px;
+        }
+
+        @media (max-width: 767px) {
+            .field-label {
+                width: 130px;
+            }
+        }
     </style>
+
 </head>
 
 
@@ -289,7 +392,7 @@
                             <small class="text-muted px-2 pb-1 d-block">Account</small>
                             <a class="dropdown-item" href="profile.html"><i
                                     class="las la-user fs-18 me-1 align-text-bottom"></i> Profile</a>
-                            <a class="dropdown-item" href="pages-faq.html"><i
+                            <a class="dropdown-item" href="profile.html"><i
                                     class="las la-wallet fs-18 me-1 align-text-bottom"></i> change password</a>
                             <small class="text-muted px-2 py-1 d-block">Settings</small>
 
@@ -815,21 +918,26 @@
         <!-- Page Content-->
         <div class="page-content">
             <div class="container-xxl">
-                <div class="row justify-content-center py-4">
+                <div class="row justify-content-center p-2">
                     <div class="col-12">
 
                         <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h4 class="card-title">Loan History Overview</h4>
-                                </div><!--end col-->
-                            </div> <!--end row-->
+                            <div style="display: flex; align-items: center; justify-content: space-between;"
+                                class="mb-4">
+                                <h2 class="text-3xl font-bold text-gray-800">KYC</h2>
+                                <button onclick="history.back()"
+                                    style="border-style: none; background: transparent; text-align: right; margin-top: -10px; "
+                                    class="px-4 py-2  text-primary rounded-md shadow-md">
+                                    Back
+                                </button>
+                            </div>
                         </div><!--end card-header-->
 
-                        <!-- Loan Summary Cards -->
-                        <div class="row mt-4 px-2">
-                            <!-- Left Column -->
-                            <div class="col-lg-4 mb-3">
+
+                        <!-- Loan Details Card -->
+                        <div class="row g-3">
+                            <!-- Left: Photo + Quick info -->
+                            <div class="col-lg-4">
                                 <div class="card shadow-sm">
                                     <div class="card-body">
                                         <div class="mb-3 text-center">
@@ -837,102 +945,110 @@
                                                 src="https://via.placeholder.com/400x240?text=Applicant+Photo"
                                                 alt="Applicant photo" class="photo-preview img-thumbnail">
                                         </div>
+
+
+
                                         <hr>
+
                                         <h5 id="fullName" class="mb-1">Adebayo Okoro</h5>
                                         <div class="mb-2">
                                             <span class="badge bg-info" id="loanStatus">Pending Disbursement</span>
                                         </div>
+
                                         <p class="mb-1"><strong>Phone:</strong> <span id="phone">0803 123 4567</span>
                                         </p>
                                         <p class="mb-0"><strong>Email:</strong> <span
                                                 id="email">adebayo.okoro@example.com</span></p>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Right Column -->
-                            <div class="col-lg-8">
-                                <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <div class="row border-dashed-bottom pb-3">
-                                                    <div class="col-9">
-                                                        <p class="text-dark mb-0 fw-semibold fs-14">Total Loans</p>
-                                                        <h3 class="mt-2 mb-0 fw-bold">12</h3>
-                                                    </div>
-                                                    <div class="col-3 d-flex align-items-center justify-content-center">
-                                                        <div class="thumb-xl bg-light rounded-circle">
-                                                            <i class="iconoir-bank h1 text-secondary"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <p class="mb-0 text-muted mt-3">Overall number of loans.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <!-- Quick actions -->
+                                <div class="card shadow-sm mt-3">
 
-                                    <div class="col-sm-6">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <div class="row border-dashed-bottom pb-3">
-                                                    <div class="col-9">
-                                                        <p class="text-dark mb-0 fw-semibold fs-14">Active Loans</p>
-                                                        <h3 class="mt-2 mb-0 fw-bold">3</h3>
-                                                    </div>
-                                                    <div class="col-3 d-flex align-items-center justify-content-center">
-                                                        <div class="thumb-xl bg-light rounded-circle">
-                                                            <i class="iconoir-credit-card h1 text-secondary"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <p class="mb-0 text-muted mt-3">Loans currently being repaid.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <div class="row border-dashed-bottom pb-3">
-                                                    <div class="col-9">
-                                                        <p class="text-dark mb-0 fw-semibold fs-14">Total Borrowed</p>
-                                                        <h3 class="mt-2 mb-0 fw-bold">₦150,000</h3>
-                                                    </div>
-                                                    <div class="col-3 d-flex align-items-center justify-content-center">
-                                                        <div class="thumb-xl bg-light rounded-circle">
-                                                            <i class="iconoir-coins h1 text-secondary"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <p class="mb-0 text-muted mt-3">Total amount borrowed across all loans.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <div class="row border-dashed-bottom pb-3">
-                                                    <div class="col-9">
-                                                        <p class="text-dark mb-0 fw-semibold fs-14">Total Repaid</p>
-                                                        <h3 class="mt-2 mb-0 fw-bold">₦85,000</h3>
-                                                    </div>
-                                                    <div class="col-3 d-flex align-items-center justify-content-center">
-                                                        <div class="thumb-xl bg-light rounded-circle">
-                                                            <i class="h1 text-secondary">₦</i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <p class="mb-0 text-muted mt-3">Total amount repaid across all loans.
-                                                </p>
-                                            </div>
-                                        </div>
+                                    <div class="card-body pt-2">
+                                        <button id="requestInfoBtn" class="btn btn-secondary w-100"><i
+                                                class="fa-solid fa-envelope me-1"></i>Request More Info</button>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Right: Details -->
+                            <div class="col-lg-8">
+
+                                <div class="card shadow-sm">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0"><i class="fa-solid fa-id-card me-2"></i>KYC Verification</h5>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <!-- Personal Information -->
+                                        <form class="row g-2 needs-validation" novalidate>
+                                            <h6 class=" text-dark bold">Personal
+                                                Information</h6>
+                                            <div class="row g-1 mb-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Full Name</label>
+                                                    <input type="text" class="form-control" value="Adebayo Okoro"
+                                                        placeholder="Enter your full name" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Date of Birth</label>
+                                                    <input type="date" class="form-control" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- BVN & NIN -->
+                                            <h6 class="mb-1 text-dark">Identity Numbers</h6>
+                                            <div class="row g-1 mb-4">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">BVN</label>
+                                                    <input type="text" maxlength="11" pattern="\d{11}"
+                                                        class="form-control" placeholder="Enter 11-digit BVN" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">NIN</label>
+                                                    <input type="text" maxlength="11" pattern="\d{11}"
+                                                        class="form-control" placeholder="Enter 11-digit NIN" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Staff ID & Payslip Upload -->
+                                            <h6 class="mb-1 text-dark">Documents</h6>
+                                            <div class="mb-3">
+                                                <label class="form-label">Staff ID (Upload)</label>
+                                                <input type="file" class="form-control doc-input"
+                                                    accept="image/*,application/pdf" required>
+                                                <img class="doc-preview d-none" alt="Staff ID Preview">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Latest Payslip</label>
+                                                <input type="file" class="form-control doc-input"
+                                                    accept="image/*,application/pdf" required>
+                                                <img class="doc-preview d-none" alt="Payslip Preview">
+                                            </div>
+
+                                            <!-- Submit -->
+                                            <div class="d-grid mt-4">
+                                                <button class="btn btn-primary btn-lg"><i
+                                                        class="fa-solid fa-paper-plane me-1"></i> Submit
+                                                    Verification</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+                            </div>
                         </div>
+
 
 
                         <!-- Loan History Table -->
@@ -941,107 +1057,152 @@
 
                     </div><!--end row-->
 
-                    <div class="row justify-content-center">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <h4 class="card-title">Loan History Details</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body pt-0">
-                                    <div class="table-responsive">
-                                        <table class="table datatable table-striped table-hover mb-0" id="datatable_2">
-                                            <thead>
-                                                <tr>
-                                                    <th>Loan ID</th>
-                                                    <th>Amount</th>
-                                                    <th>Purpose</th>
-                                                    <th>Status</th>
-                                                    <th data-type="date" data-format="YYYY-MM-DD">Application Date</th>
-                                                    <th data-type="date" data-format="YYYY-MM-DD">Due Date</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>#L001</td>
-                                                    <td>₦10,000</td>
-                                                    <td>Home Renovation</td>
-                                                    <td><span class="badge bg-success">Paid</span></td>
-                                                    <td>2023-01-15</td>
-                                                    <td>2024-01-15</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#L002</td>
-                                                    <td>₦5,000</td>
-                                                    <td>Education</td>
-                                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                                    <td>2023-03-20</td>
-                                                    <td>2024-03-20</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#L003</td>
-                                                    <td>₦25,000</td>
-                                                    <td>Business Investment</td>
-                                                    <td><span class="badge bg-info">Active</span></td>
-                                                    <td>2023-06-10</td>
-                                                    <td>2025-06-10</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#L004</td>
-                                                    <td>₦7,500</td>
-                                                    <td>Debt Consolidation</td>
-                                                    <td><span class="badge bg-danger">Overdue</span></td>
-                                                    <td>2023-09-01</td>
-                                                    <td>2024-09-01</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#L005</td>
-                                                    <td>₦12,000</td>
-                                                    <td>Medical Expenses</td>
-                                                    <td><span class="badge bg-success">Paid</span></td>
-                                                    <td>2023-11-05</td>
-                                                    <td>2024-11-05</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#L006</td>
-                                                    <td>₦8,000</td>
-                                                    <td>Vehicle Purchase</td>
-                                                    <td><span class="badge bg-info">Active</span></td>
-                                                    <td>2024-02-18</td>
-                                                    <td>2025-02-18</td>
-                                                    <td><button class="btn btn-sm btn-outline-primary">View
-                                                            Details</button></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <button type="button" class="btn btn-sm btn-primary csv">Export CSV</button>
-                                        <button type="button" class="btn btn-sm btn-primary sql">Export SQL</button>
-                                        <button type="button" class="btn btn-sm btn-primary txt">Export TXT</button>
-                                        <button type="button" class="btn btn-sm btn-primary json">Export JSON</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
 
 
 
                 </div><!-- container -->
             </div><!-- container -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success text-white text-center">
+                            <h6 class="modal-title m-0" id="exampleModalCenterTitle">Loan Approval</h6>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div><!--end modal-header-->
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <!-- Icon -->
+
+
+                                <!-- Details -->
+                                <div class="col-lg-9">
+                                    <h5>Loan Request Details</h5>
+                                    <span class="badge text-dark bg-info">Pending Approval</span>
+                                    <small class="text-muted ms-2" id="loanDate">08 Aug 2025</small>
+
+                                    <ul class="mt-2 mb-0">
+                                        <li>Requested Amount: <strong id="loanRequestedDisplay">₦0</strong></li>
+                                        <li>
+                                            Eligible Amount:
+                                            <div class="input-group mt-1">
+                                                <span class="input-group-text">₦</span>
+                                                <input id="eligibleAmountInput" type="number" class="form-control"
+                                                    min="0" step="100" aria-label="Eligible amount">
+                                            </div>
+                                            <div id="eligibleError" class="text-danger small mt-1"
+                                                style="display:none;"></div>
+                                        </li>
+                                        <li>Credit Score: <strong id="creditScore">-</strong></li>
+                                    </ul>
+                                </div><!--end col-->
+                            </div><!--end row-->
+
+                            <!-- Comment Input -->
+                            <div class="mt-3">
+                                <label for="approvalComment" class="form-label">Approval Comment</label>
+                                <textarea id="approvalComment" class="form-control" rows="3"
+                                    placeholder="Enter your comments..."></textarea>
+                            </div>
+                        </div><!--end modal-body-->
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button id="confirmApproval" type="button" class="btn btn-primary btn-sm">Confirm
+                                Approval</button>
+                        </div><!--end modal-footer-->
+                    </div><!--end modal-content-->
+                </div><!--end modal-dialog-->
+            </div><!--end modal-->
+            <div class="modal fade" id="denyModal" tabindex="-1" aria-labelledby="denyModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h6 class="modal-title" id="denyModalTitle">Deny Loan Request</h6>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to deny this loan request?</p>
+                            <div class="mb-3">
+                                <label for="denyComment" class="form-label">Reason for Denial</label>
+                                <textarea id="denyComment" class="form-control" rows="3"
+                                    placeholder="Enter your reason..."></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                            <button id="confirmDeny" class="btn btn-danger btn-sm">Confirm Denial</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="flagModal" tabindex="-1" aria-labelledby="flagModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h6 class="modal-title" id="flagModalTitle">Flag Loan for Review</h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="flagReason" class="form-label">Flag Reason</label>
+                                <select id="flagReason" class="form-select">
+                                    <option value="">-- Select Reason --</option>
+                                    <option value="suspicious">Suspicious Activity</option>
+                                    <option value="incomplete_docs">Incomplete Documentation</option>
+                                    <option value="verification_needed">Further Verification Needed</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="flagComment" class="form-label">Additional Comments</label>
+                                <textarea id="flagComment" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                            <button id="confirmFlag" class="btn btn-warning btn-sm">Confirm Flag</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="requestInfoModal" tabindex="-1" aria-labelledby="requestInfoModalTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h6 class="modal-title" id="requestInfoModalTitle">Request Additional Information</h6>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="infoRequired" class="form-label">Information / Documents Needed</label>
+                                <select id="infoRequired" class="form-select" multiple>
+                                    <option value="id_proof">Government ID / NIN</option>
+                                    <option value="salary_slip">Recent Salary Slip</option>
+                                    <option value="bank_statement">Bank Statement (3 months)</option>
+                                    <option value="employment_letter">Employment Letter</option>
+                                    <option value="address_proof">Proof of Address</option>
+                                </select>
+                                <small class="text-muted">Hold Ctrl or Cmd to select multiple</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="requestInfoComment" class="form-label">Additional Instructions</label>
+                                <textarea id="requestInfoComment" class="form-control" rows="3"
+                                    placeholder="Explain what is missing..."></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                            <button id="confirmRequestInfo" class="btn btn-info btn-sm">Send Request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--Start Rightbar-->
             <!--Start Rightbar/offcanvas-->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="Appearance" aria-labelledby="AppearanceLabel">
@@ -1098,7 +1259,8 @@
                                         <script> document.write(new Date().getFullYear()) </script>
                                         Smartfund
                                         <span class="text-muted d-none d-sm-inline-block float-end">
-                                            Powered By <a href="https://codesprosoft.com" target="_/blank">CodesProSoft
+                                            Powered By <a href="https://codesprosoft.com" target="_/blank"
+                                                class="text-primary">CodesProSoft
                                             </a></span>
                                     </p>
                                 </div>
@@ -1116,7 +1278,8 @@
 
     <!-- Javascript  -->
     <!-- vendor js -->
-
+    <script src="assets/js/pages/pendingloan.js"></script>
+    <script src="assets/js/pages/loan-details.js"></script>
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
     <script src="assets/libs/simple-datatables/umd/simple-datatables.js"></script>
