@@ -2,9 +2,9 @@ try {
   new simpleDatatables.DataTable("#datatable_1", { searchable: !0, fixedHeight: !1 });
 } catch (e) {}
 try {
-  const b = new simpleDatatables.DataTable("#datatable_2");
+  const b = new simpleDatatables.DataTable("#datatable_2", { searchable: !0, fixedHeight: !1 });
   document.querySelector("button.csv").addEventListener("click", () => {
-    b.export({ type: "csv", download: !0, lineDelimiter: "\n\n", columnDelimiter: ";" });
+    b.export({ type: "csv", download: !0, lineDelimiter: "\n\n", columnDelimiter: "," });
   }),
     document.querySelector("button.sql").addEventListener("click", () => {
       b.export({ type: "sql", download: !0, tableName: "export_table" });

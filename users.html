@@ -925,7 +925,7 @@
                                                 <th>Phone</th>
                                                 <th>Role</th>
                                                 <th>Joined Date</th>
-                                                <th>Actions</th>
+                                                <th class="no-export">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -935,7 +935,7 @@
                                                 <td>+234 801 234 5678</td>
                                                 <td>Admin</td>
                                                 <td>2024/05/12</td>
-                                                <td>
+                                                <td class="no-export">
                                                     <button type="button" class="action-btn edit"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Edit User">
@@ -954,7 +954,7 @@
                                                 <td>+234 801 234 5678</td>
                                                 <td>Admin</td>
                                                 <td>2024/05/12</td>
-                                                <td>
+                                                <td class="no-export">
                                                     <button type="button" class="action-btn edit"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Edit User">
@@ -973,7 +973,7 @@
                                                 <td>+234 801 234 5678</td>
                                                 <td>Admin</td>
                                                 <td>2024/05/12</td>
-                                                <td>
+                                                <td class="no-export">
                                                     <button type="button" class="action-btn edit"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Edit User">
@@ -992,7 +992,7 @@
                                                 <td>+234 801 234 5678</td>
                                                 <td>Admin</td>
                                                 <td>2024/05/12</td>
-                                                <td>
+                                                <td class="no-export">
                                                     <button type="button" class="action-btn edit"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Edit User">
@@ -1011,7 +1011,7 @@
                                                 <td>+234 801 234 5678</td>
                                                 <td>Admin</td>
                                                 <td>2024/05/12</td>
-                                                <td>
+                                                <td class="no-export">
                                                     <button type="button" class="action-btn edit"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Edit User">
@@ -1030,7 +1030,7 @@
                                                 <td>+234 802 555 1122</td>
                                                 <td>Editor</td>
                                                 <td>2023/11/02</td>
-                                                <td>
+                                                <td class="no-export">
                                                     <button type="button" class="action-btn edit"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Edit User">
@@ -1049,7 +1049,7 @@
                                                 <td>+234 803 999 0001</td>
                                                 <td>Viewer</td>
                                                 <td>2025/02/10</td>
-                                                <td>
+                                                <td class="no-export">
                                                     <button type="button" class="action-btn edit"
                                                         data-bs-toggle="tooltip" data-bs-placement="top"
                                                         title="Edit User">
@@ -1092,7 +1092,7 @@
                 <!-- Add User Modal -->
                 <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel"
                     aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
                         <div class="modal-content">
                             <form id="userForm">
                                 <div class="modal-header bg-primary">
@@ -1103,22 +1103,22 @@
 
                                 <div class="row modal-body g-3">
                                     <input type="hidden" id="editIndex" />
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-lg-4">
                                         <label for="fullName" class="form-label">Full Name</label>
                                         <input type="text" class="form-control" id="fullName"
                                             placeholder="Enter full name" required>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-lg-4">
                                         <label for="emailAddress" class="form-label">Email</label>
                                         <input type="email" class="form-control" id="emailAddress"
                                             placeholder="Enter email" required>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-lg-4">
                                         <label for="phoneNumber" class="form-label">Phone</label>
                                         <input type="text" class="form-control" id="phoneNumber"
                                             placeholder="Enter phone number" required>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-lg-4">
                                         <label for="role" class="form-label">Role</label>
                                         <select class="form-select" id="role" required>
                                             <option value="">Select role</option>
@@ -1127,7 +1127,7 @@
                                             <option value="Viewer">Viewer</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-lg-4">
                                         <label for="joinedDate" class="form-label">Joined Date</label>
                                         <input type="date" class="form-control" id="joinedDate" required>
                                     </div>
