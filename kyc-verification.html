@@ -983,17 +983,27 @@
 
                                         <!-- Personal Information -->
                                         <form class="row g-2 needs-validation" novalidate>
-                                            <h6 class=" text-dark bold">Personal
-                                                Information</h6>
+                                            <h6 class="text-dark bold">Personal Information</h6>
                                             <div class="row g-1 mb-3">
                                                 <div class="col-md-6">
-                                                    <label class="form-label">Full Name</label>
-                                                    <input type="text" class="form-control" value="Adebayo Okoro"
-                                                        placeholder="Enter your full name" required>
+                                                    <label class="form-label">Full Name:</label>
+                                                    <p id="name-status">
+                                                        Adebayo Okoro
+                                                        <span class="status ms-2 text-primary">
+                                                            <i class="fa-solid fa-spinner fa-spin"></i>
+                                                            <small> Waiting...</small>
+                                                        </span>
+                                                    </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label">Date of Birth</label>
-                                                    <input type="date" class="form-control" required>
+                                                    <p id="dob-status">
+                                                        12-09-1996
+                                                        <span class="status ms-2 text-primary">
+                                                            <i class="fa-solid fa-spinner fa-spin"></i>
+                                                            <small> Waiting...</small>
+                                                        </span>
+                                                    </p>
                                                 </div>
                                             </div>
 
@@ -1002,13 +1012,23 @@
                                             <div class="row g-1 mb-4">
                                                 <div class="col-md-6">
                                                     <label class="form-label">BVN</label>
-                                                    <input type="text" maxlength="11" pattern="\d{11}"
-                                                        class="form-control" placeholder="Enter 11-digit BVN" required>
+                                                    <p id="bvn-status">
+                                                        22345654321
+                                                        <span class="status ms-2 text-primary">
+                                                            <i class="fa-solid fa-spinner fa-spin"></i>
+                                                            <small> Waiting...</small>
+                                                        </span>
+                                                    </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label">NIN</label>
-                                                    <input type="text" maxlength="11" pattern="\d{11}"
-                                                        class="form-control" placeholder="Enter 11-digit NIN" required>
+                                                    <p id="nin-status">
+                                                        31923546542
+                                                        <span class="status ms-2 text-primary">
+                                                            <i class="fa-solid fa-spinner fa-spin"></i>
+                                                            <small> Waiting...</small>
+                                                        </span>
+                                                    </p>
                                                 </div>
                                             </div>
 
@@ -1018,22 +1038,28 @@
                                                 <label class="form-label">Staff ID (Upload)</label>
                                                 <input type="file" class="form-control doc-input"
                                                     accept="image/*,application/pdf" required>
-                                                <img class="doc-preview d-none" alt="Staff ID Preview">
+                                                <p id="staff-id-status" class="mt-1 text-muted small">
+                                                    <i class="fa-solid fa-spinner fa-spin"></i> Waiting...
+                                                </p>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Latest Payslip</label>
                                                 <input type="file" class="form-control doc-input"
                                                     accept="image/*,application/pdf" required>
-                                                <img class="doc-preview d-none" alt="Payslip Preview">
+                                                <p id="payslip-status" class="mt-1 text-muted small">
+                                                    <i class="fa-solid fa-spinner fa-spin"></i> Waiting...
+                                                </p>
                                             </div>
 
                                             <!-- Submit -->
                                             <div class="d-grid mt-4">
-                                                <button class="btn btn-primary btn-lg"><i
-                                                        class="fa-solid fa-paper-plane me-1"></i> Submit
-                                                    Verification</button>
+                                                <button id="verify-btn" type="button" class="btn btn-primary btn-lg">
+                                                    <i class="fa-solid fa-paper-plane me-1"></i> Submit Verification
+                                                </button>
                                             </div>
                                         </form>
+
+
 
                                     </div>
                                 </div>
@@ -1278,6 +1304,45 @@
 
     <!-- Javascript  -->
     <!-- vendor js -->
+    <script>
+        const steps = ["Checking...", "Validating...", "Verifying...", "Processing...", "Verified"];
+
+        function animateVerification(id, delay = 1000) {
+            const element = document.getElementById(id).querySelector(".status");
+            let stepIndex = 0;
+
+            const interval = setInterval(() => {
+                if (stepIndex < steps.length - 1) {
+                    element.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-primary"></i>
+                                 <small class="text-primary">${steps[stepIndex]}</small>`;
+                } else {
+                    element.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i>
+                                 <small class="text-success">${steps[stepIndex]}</small>`;
+                    clearInterval(interval);
+                }
+                stepIndex++;
+            }, delay);
+        }
+
+        document.getElementById("verify-btn").addEventListener("click", () => {
+            const fields = [
+                "name-status",
+                "dob-status",
+                "bvn-status",
+                "nin-status",
+                "staff-id-status",
+                "payslip-status"
+            ];
+
+            fields.forEach((id, index) => {
+                setTimeout(() => {
+                    animateVerification(id, 1000); // 1 second per step
+                }, index * 1500); // Slight delay for sequential feel
+            });
+        });
+    </script>
+
+
     <script src="assets/js/pages/pendingloan.js"></script>
     <script src="assets/js/pages/loan-details.js"></script>
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

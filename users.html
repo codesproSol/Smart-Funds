@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr" data-startbar="light" data-bs-theme="light">
 
 
-<!-- Mirrored from https://codesprosoft.com/Smartfund/default/forms-uploads.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 23 Jun 2025 00:06:16 GMT -->
+<!-- Mirrored from https://codesprosoft.com/Smartfund/default/tables-datatable.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 23 Jun 2025 00:06:27 GMT -->
 
 <head>
 
@@ -18,11 +18,83 @@
     <link rel="shortcut icon" href="assets/images/logo-sm.png">
 
 
-    <link href="assets/libs/uppy/uppy.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/simple-datatables/style.css" rel="stylesheet" type="text/css" />
     <!-- App css -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        /* Action button styles */
+        .action-btn {
+            padding: 0.4rem;
+            border-radius: 0.375rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-style: none;
+            outline: none;
+        }
+
+        .action-btn.edit {
+            background-color: #dbeafe;
+            /* blue-200 */
+            color: #1e40af;
+            /* blue-800 */
+        }
+
+        .action-btn.edit:hover {
+            background-color: #bfdbfe;
+            /* blue-300 */
+        }
+
+        .action-btn.delete {
+            background-color: #fee2e2;
+            /* red-200 */
+            color: #991b1b;
+            /* red-800 */
+        }
+
+        .action-btn.delete:hover {
+            background-color: #fecaca;
+            /* red-300 */
+        }
+
+        .action-btn svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        /* .t-scroll {
+            max-height: 300px !important;
+            background: pink;
+            overflow-y: scroll;
+        } */
+
+        .table-responsive {
+            position: relative;
+            max-height: calc(100vh - 250px) !important;
+        }
+
+        .cont_btn {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        #exportOptions {
+            gap: 10px;
+            top: 40px;
+            left: 0;
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+
 </head>
 
 
@@ -824,29 +896,254 @@
         <div class="page-content">
             <div class="container-xxl">
 
+
+
                 <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h4 class="card-title">Users Information</h4>
+                                    </div>
+                                    <div class="col text-end">
+                                        <button type="button" class="btn btn-sm btn-outline-success" id="addUserBtn"
+                                            data-bs-toggle="modal" data-bs-target="#userModal">
+                                            <i class="fas fa-user-plus"></i> Add New User
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="card-body pt-0">
+                                <div class="table-responsive">
+                                    <table class="table datatable t-scroll" id="datatable_2">
+                                        <thead>
+                                            <tr>
+                                                <th>Full Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Role</th>
+                                                <th>Joined Date</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>John Doe</td>
+                                                <td>johndoe@example.com</td>
+                                                <td>+234 801 234 5678</td>
+                                                <td>Admin</td>
+                                                <td>2024/05/12</td>
+                                                <td>
+                                                    <button type="button" class="action-btn edit"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Edit User">
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="action-btn delete"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Delete User">
+                                                        <i class="far fa-trash-can"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>John Doe</td>
+                                                <td>johndoe@example.com</td>
+                                                <td>+234 801 234 5678</td>
+                                                <td>Admin</td>
+                                                <td>2024/05/12</td>
+                                                <td>
+                                                    <button type="button" class="action-btn edit"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Edit User">
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="action-btn delete"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Delete User">
+                                                        <i class="far fa-trash-can"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>John Doe</td>
+                                                <td>johndoe@example.com</td>
+                                                <td>+234 801 234 5678</td>
+                                                <td>Admin</td>
+                                                <td>2024/05/12</td>
+                                                <td>
+                                                    <button type="button" class="action-btn edit"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Edit User">
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="action-btn delete"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Delete User">
+                                                        <i class="far fa-trash-can"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>John Doe</td>
+                                                <td>johndoe@example.com</td>
+                                                <td>+234 801 234 5678</td>
+                                                <td>Admin</td>
+                                                <td>2024/05/12</td>
+                                                <td>
+                                                    <button type="button" class="action-btn edit"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Edit User">
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="action-btn delete"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Delete User">
+                                                        <i class="far fa-trash-can"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>John Doe</td>
+                                                <td>johndoe@example.com</td>
+                                                <td>+234 801 234 5678</td>
+                                                <td>Admin</td>
+                                                <td>2024/05/12</td>
+                                                <td>
+                                                    <button type="button" class="action-btn edit"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Edit User">
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="action-btn delete"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Delete User">
+                                                        <i class="far fa-trash-can"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jane Smith</td>
+                                                <td>janesmith@example.com</td>
+                                                <td>+234 802 555 1122</td>
+                                                <td>Editor</td>
+                                                <td>2023/11/02</td>
+                                                <td>
+                                                    <button type="button" class="action-btn edit"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Edit User">
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="action-btn delete"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Delete User">
+                                                        <i class="far fa-trash-can"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Samuel Johnson</td>
+                                                <td>samuelj@example.com</td>
+                                                <td>+234 803 999 0001</td>
+                                                <td>Viewer</td>
+                                                <td>2025/02/10</td>
+                                                <td>
+                                                    <button type="button" class="action-btn edit"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Edit User">
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="action-btn delete"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Delete User">
+                                                        <i class="far fa-trash-can"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="cont_btn">
+                                        <button type="button" class="btn btn-sm btn-primary" id="exportBtn">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                        <div id="exportOptions">
+                                            <button type=" button" class="btn btn-sm btn-primary csv">CSV</button>
+                                            <button type="button" class="btn btn-sm btn-primary sql">SQL</button>
+                                            <button type="button" class="btn btn-sm btn-primary txt">TXT</button>
+                                            <button type="button" class="btn btn-sm btn-primary json">JSON</button>
+                                        </div>
+                                    </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h4 class="card-title">Uppy File Upload</h4>
+                                    <!-- <div class="cont_btn">
+                                        <button type="button" class="btn btn-sm btn-primary csv">Export CSV</button>
+                                        <button type="button" class="btn btn-sm btn-primary sql">Export SQL</button>
+                                        <button type="button" class="btn btn-sm btn-primary txt">Export TXT</button>
+                                        <button type="button" class="btn btn-sm btn-primary json">Export JSON</button>
+                                    </div> -->
+
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body pt-0">
-                            <div id="drag-drop-area"></div>
-                            <hr class="my-4">
-                            <h5>Preview</h5>
-                            <div class="table-responsive px-2">
-                                <div class="table-responsive preview-box table table-bordered table-striped"></div>
-                            </div>
+                    </div>
+                </div>
+
+                <!-- Add User Modal -->
+                <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <form id="userForm">
+                                <div class="modal-header bg-primary">
+                                    <h5 class="modal-title text-white" id="userModalLabel">Add New User</h5>
+                                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <div class="row modal-body g-3">
+                                    <input type="hidden" id="editIndex" />
+                                    <div class="col-md-6">
+                                        <label for="fullName" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="fullName"
+                                            placeholder="Enter full name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="emailAddress" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="emailAddress"
+                                            placeholder="Enter email" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phoneNumber" class="form-label">Phone</label>
+                                        <input type="text" class="form-control" id="phoneNumber"
+                                            placeholder="Enter phone number" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="role" class="form-label">Role</label>
+                                        <select class="form-select" id="role" required>
+                                            <option value="">Select role</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Editor">Editor</option>
+                                            <option value="Viewer">Viewer</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="joinedDate" class="form-label">Joined Date</label>
+                                        <input type="date" class="form-control" id="joinedDate" required>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" id="saveUserBtn">Save</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
+                </div>
 
 
-                </div><!--end row-->
             </div><!-- container -->
             <!--Start Rightbar-->
             <!--Start Rightbar/offcanvas-->
@@ -922,16 +1219,147 @@
 
     <!-- Javascript  -->
     <!-- vendor js -->
+    <script>
+        const exportBtn = document.getElementById('exportBtn');
+        const exportOptions = document.getElementById('exportOptions');
+
+        // Toggle show/hide when clicking the main button
+        exportBtn.addEventListener('click', () => {
+            exportOptions.style.display = exportOptions.style.display === 'none' ? 'flex' : 'none';
+        });
+
+        // Hide options when clicking anywhere outside
+        document.addEventListener('click', (e) => {
+            if (!exportBtn.contains(e.target) && !exportOptions.contains(e.target)) {
+                exportOptions.style.display = 'none';
+            }
+        });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userModalEl = document.getElementById('userModal');
+            const userModal = new bootstrap.Modal(userModalEl);
+            const userForm = document.getElementById('userForm');
+            const modalTitle = document.getElementById('userModalLabel');
+
+            const tbody = document.querySelector('#datatable_2 tbody');
+
+            const editIndexInput = document.getElementById('editIndex');
+            const fullName = document.getElementById('fullName');
+            const emailAddress = document.getElementById('emailAddress');
+            const phoneNumber = document.getElementById('phoneNumber');
+            const role = document.getElementById('role');
+            const joinedDate = document.getElementById('joinedDate');
+
+            // Enable tooltips
+            const initTooltips = () => {
+                const tts = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tts.forEach(el => new bootstrap.Tooltip(el));
+            };
+            initTooltips();
+
+            // Open modal in "Add" mode
+            document.getElementById('addUserBtn').addEventListener('click', () => {
+                userForm.reset();
+                editIndexInput.value = '';
+                modalTitle.textContent = 'Add New User';
+                document.getElementById('saveUserBtn').textContent = 'Add User';
+                // (Modal is shown via data-bs-target already)
+            });
+
+            // Handle Add/Edit submit
+            userForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const data = {
+                    name: fullName.value.trim(),
+                    email: emailAddress.value.trim(),
+                    phone: phoneNumber.value.trim(),
+                    role: role.value,
+                    date: joinedDate.value
+                };
+
+                if (!data.name || !data.email || !data.phone || !data.role || !data.date) return;
+
+                if (editIndexInput.value === '') {
+                    // ADD
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+          <td>${data.name}</td>
+          <td>${data.email}</td>
+          <td>${data.phone}</td>
+          <td>${data.role}</td>
+          <td>${data.date}</td>
+          <td>
+            <button type="button" class="action-btn edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit User">
+              <i class="far fa-edit"></i>
+            </button>
+            <button type="button" class="action-btn delete" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete User">
+              <i class="far fa-trash-can"></i>
+            </button>
+          </td>
+        `;
+                    tbody.appendChild(tr);
+                    initTooltips(); // reapply for new buttons
+                } else {
+                    // EDIT
+                    const idx = parseInt(editIndexInput.value, 10);
+                    const row = tbody.querySelectorAll('tr')[idx];
+                    row.cells[0].textContent = data.name;
+                    row.cells[1].textContent = data.email;
+                    row.cells[2].textContent = data.phone;
+                    row.cells[3].textContent = data.role;
+                    row.cells[4].textContent = data.date;
+                }
+
+                userModal.hide();
+            });
+
+            // Delegate Edit/Delete actions
+            tbody.addEventListener('click', (e) => {
+                const editBtn = e.target.closest('.edit');
+                const delBtn = e.target.closest('.delete');
+                if (!editBtn && !delBtn) return;
+
+                const row = e.target.closest('tr');
+                const index = Array.from(tbody.children).indexOf(row);
+
+                if (editBtn) {
+                    // Fill modal in "Edit" mode
+                    editIndexInput.value = index;
+                    modalTitle.textContent = 'Edit User';
+                    document.getElementById('saveUserBtn').textContent = 'Save Changes';
+
+                    fullName.value = row.cells[0].textContent;
+                    emailAddress.value = row.cells[1].textContent;
+                    phoneNumber.value = row.cells[2].textContent;
+                    role.value = row.cells[3].textContent;
+                    // Handle yyyy/mm/dd vs yyyy-mm-dd: normalize for <input type="date">
+                    const rawDate = row.cells[4].textContent.trim();
+                    joinedDate.value = rawDate.includes('/') ? rawDate.replaceAll('/', '-') : rawDate;
+
+                    userModal.show();
+                }
+
+                if (delBtn) {
+                    if (confirm('Delete this user?')) row.remove();
+                }
+            });
+        });
+    </script>
+
 
     <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/libs/uppy/uppy.legacy.min.js"></script>
-    <script src="assets/js/pages/file-upload.init.js"></script>
+
+    <script src="assets/libs/simple-datatables/umd/simple-datatables.js"></script>
+    <script src="assets/js/pages/datatable.init.js"></script>
+
     <script src="assets/js/app.js"></script>
+
 </body>
 <!--end body-->
 
-<!-- Mirrored from https://codesprosoft.com/Smartfund/default/forms-uploads.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 23 Jun 2025 00:06:17 GMT -->
+<!-- Mirrored from https://codesprosoft.com/Smartfund/default/tables-datatable.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 23 Jun 2025 00:06:27 GMT -->
 
 </html>
