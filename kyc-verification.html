@@ -1052,6 +1052,24 @@
                                                         <i class="fa fa-check"></i>
                                                     </button>
                                                 </div>
+                                                <div
+                                                    class="col-md-6 d-flex justify-content-between align-items-center mt-3">
+                                                    <div>
+                                                        <label class="form-label">Account Number</label>
+                                                        <p id="accountNumber-status" class="mb-0">
+                                                            2209469028
+                                                            <span class="status ms-2 text-primary">
+                                                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                                                <small>Waiting...</small>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mx-2"
+                                                        onclick="verifyField('Account Number', 'accountNumber-status', this)">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
+                                                </div>
+
                                             </div>
 
                                             <!-- Staff ID & Payslip Upload -->
@@ -1278,6 +1296,7 @@
             const fields = [
                 "name-status",
                 "dob-status",
+                "accountNumber-status",
                 "bvn-status",
                 "nin-status",
                 "staff-id-status",
@@ -1301,6 +1320,7 @@
             const fields = [
                 "name-status",
                 "dob-status",
+                "accountNumber-status",
                 "bvn-status",
                 "nin-status",
                 "staff-id-status",
