@@ -4186,3 +4186,7 @@ ul.listree-submenu-items li a {
     transform: rotate(360deg);
   }
 }
+
+.flex-col{
+  flex-direction: column;
+}

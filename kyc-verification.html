@@ -974,105 +974,135 @@
 
                             <!-- Right: Details -->
                             <div class="col-lg-8">
-
                                 <div class="card shadow-sm">
                                     <div class="card-header bg-primary text-white">
                                         <h5 class="mb-0"><i class="fa-solid fa-id-card me-2"></i>KYC Verification</h5>
                                     </div>
                                     <div class="card-body">
-
                                         <!-- Personal Information -->
                                         <form class="row g-2 needs-validation" novalidate>
                                             <h6 class="text-dark bold">Personal Information</h6>
                                             <div class="row g-1 mb-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Full Name:</label>
-                                                    <p id="name-status">
-                                                        Adebayo Okoro
-                                                        <span class="status ms-2 text-primary">
-                                                            <i class="fa-solid fa-spinner fa-spin"></i>
-                                                            <small> Waiting...</small>
-                                                        </span>
-                                                    </p>
+                                                <div class="col-md-6 d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <label class="form-label">Full Name:</label>
+                                                        <p id="name-status" class="mb-0">
+                                                            Adebayo Okoro
+                                                            <span class="status ms-2 text-primary">
+                                                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                                                <small> Waiting...</small>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mx-2"
+                                                        onclick="verifyField('Full Name', 'name-status', this)">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Date of Birth</label>
-                                                    <p id="dob-status">
-                                                        12-09-1996
-                                                        <span class="status ms-2 text-primary">
-                                                            <i class="fa-solid fa-spinner fa-spin"></i>
-                                                            <small> Waiting...</small>
-                                                        </span>
-                                                    </p>
+                                                <div class="col-md-6 d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <label class="form-label">Date of Birth</label>
+                                                        <p id="dob-status" class="mb-0">
+                                                            12-09-1996
+                                                            <span class="status ms-2 text-primary">
+                                                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                                                <small> Waiting...</small>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mx-2"
+                                                        onclick="verifyField('Date of Birth', 'dob-status', this)">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
                                                 </div>
                                             </div>
 
                                             <!-- BVN & NIN -->
                                             <h6 class="mb-1 text-dark">Identity Numbers</h6>
                                             <div class="row g-1 mb-4">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">BVN</label>
-                                                    <p id="bvn-status">
-                                                        22345654321
-                                                        <span class="status ms-2 text-primary">
-                                                            <i class="fa-solid fa-spinner fa-spin"></i>
-                                                            <small> Waiting...</small>
-                                                        </span>
-                                                    </p>
+                                                <div class="col-md-6 d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <label class="form-label">BVN</label>
+                                                        <p id="bvn-status" class="mb-0">
+                                                            22345654321
+                                                            <span class="status ms-2 text-primary">
+                                                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                                                <small> Waiting...</small>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mx-2"
+                                                        onclick="verifyField('BVN', 'bvn-status', this)">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">NIN</label>
-                                                    <p id="nin-status">
-                                                        31923546542
-                                                        <span class="status ms-2 text-primary">
-                                                            <i class="fa-solid fa-spinner fa-spin"></i>
-                                                            <small> Waiting...</small>
-                                                        </span>
-                                                    </p>
+                                                <div class="col-md-6 d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <label class="form-label">NIN</label>
+                                                        <p id="nin-status" class="mb-0">
+                                                            31923546542
+                                                            <span class="status ms-2 text-primary">
+                                                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                                                <small> Waiting...</small>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mx-2"
+                                                        onclick="verifyField('NIN', 'nin-status', this)">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
                                                 </div>
                                             </div>
 
                                             <!-- Staff ID & Payslip Upload -->
                                             <h6 class="mb-1 text-dark">Documents</h6>
-                                            <div class="mb-3">
-                                                <label class="form-label">Staff ID (Upload)</label>
-                                                <input type="file" class="form-control doc-input"
-                                                    accept="image/*,application/pdf" required>
-                                                <p id="staff-id-status" class="mt-1 text-muted small">
-                                                    <i class="fa-solid fa-spinner fa-spin"></i> Waiting...
-                                                </p>
+                                            <div class="mb-3 d-flex justify-content-between align-items-center">
+                                                <div class="flex-grow-1 me-2">
+                                                    <label class="form-label">Staff ID</label>
+                                                    <p id="staff-id-status" class="mb-0">
+                                                        Id card
+                                                        <span class="status ms-2 text-primary">
+                                                            <i class="fa-solid fa-spinner fa-spin"></i>
+                                                            <small> Waiting...</small>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mx-2"
+                                                    onclick="verifyField('Staff ID', 'staff-id-status', this)">
+                                                    <i class="fa fa-check"></i>
+                                                </button>
                                             </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Latest Payslip</label>
-                                                <input type="file" class="form-control doc-input"
-                                                    accept="image/*,application/pdf" required>
-                                                <p id="payslip-status" class="mt-1 text-muted small">
-                                                    <i class="fa-solid fa-spinner fa-spin"></i> Waiting...
-                                                </p>
+
+                                            <div class="mb-3 d-flex justify-content-between align-items-center">
+                                                <div class="flex-grow-1 me-2">
+                                                    <label class="form-label">Latest Payslip</label>
+                                                    <p id="payslip-status" class="mb-0">
+                                                        Payslip
+                                                        <span class="status ms-2 text-primary">
+                                                            <i class="fa-solid fa-spinner fa-spin"></i>
+                                                            <small> Waiting...</small>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mx-2"
+                                                    onclick="verifyField('Payslip', 'payslip-status', this)">
+                                                    <i class="fa fa-check"></i>
+                                                </button>
                                             </div>
 
                                             <!-- Submit -->
                                             <div class="d-grid mt-4">
                                                 <button id="verify-btn" type="button" class="btn btn-primary btn-lg">
-                                                    <i class="fa-solid fa-paper-plane me-1"></i> Submit Verification
+                                                    <i class="fa-solid fa-paper-plane me-1"></i> Verify all
                                                 </button>
                                             </div>
                                         </form>
-
-
-
                                     </div>
                                 </div>
-
-
-
-
-
-
-
-
-
                             </div>
+
+
+
                         </div>
 
 
@@ -1089,113 +1119,7 @@
 
                 </div><!-- container -->
             </div><!-- container -->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-success text-white text-center">
-                            <h6 class="modal-title m-0" id="exampleModalCenterTitle">Loan Approval</h6>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div><!--end modal-header-->
-
-                        <div class="modal-body">
-                            <div class="row">
-                                <!-- Icon -->
-
-
-                                <!-- Details -->
-                                <div class="col-lg-9">
-                                    <h5>Loan Request Details</h5>
-                                    <span class="badge text-dark bg-info">Pending Approval</span>
-                                    <small class="text-muted ms-2" id="loanDate">08 Aug 2025</small>
-
-                                    <ul class="mt-2 mb-0">
-                                        <li>Requested Amount: <strong id="loanRequestedDisplay">₦0</strong></li>
-                                        <li>
-                                            Eligible Amount:
-                                            <div class="input-group mt-1">
-                                                <span class="input-group-text">₦</span>
-                                                <input id="eligibleAmountInput" type="number" class="form-control"
-                                                    min="0" step="100" aria-label="Eligible amount">
-                                            </div>
-                                            <div id="eligibleError" class="text-danger small mt-1"
-                                                style="display:none;"></div>
-                                        </li>
-                                        <li>Credit Score: <strong id="creditScore">-</strong></li>
-                                    </ul>
-                                </div><!--end col-->
-                            </div><!--end row-->
-
-                            <!-- Comment Input -->
-                            <div class="mt-3">
-                                <label for="approvalComment" class="form-label">Approval Comment</label>
-                                <textarea id="approvalComment" class="form-control" rows="3"
-                                    placeholder="Enter your comments..."></textarea>
-                            </div>
-                        </div><!--end modal-body-->
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary btn-sm"
-                                data-bs-dismiss="modal">Cancel</button>
-                            <button id="confirmApproval" type="button" class="btn btn-primary btn-sm">Confirm
-                                Approval</button>
-                        </div><!--end modal-footer-->
-                    </div><!--end modal-content-->
-                </div><!--end modal-dialog-->
-            </div><!--end modal-->
-            <div class="modal fade" id="denyModal" tabindex="-1" aria-labelledby="denyModalTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-danger text-white">
-                            <h6 class="modal-title" id="denyModalTitle">Deny Loan Request</h6>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to deny this loan request?</p>
-                            <div class="mb-3">
-                                <label for="denyComment" class="form-label">Reason for Denial</label>
-                                <textarea id="denyComment" class="form-control" rows="3"
-                                    placeholder="Enter your reason..."></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                            <button id="confirmDeny" class="btn btn-danger btn-sm">Confirm Denial</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="flagModal" tabindex="-1" aria-labelledby="flagModalTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-warning">
-                            <h6 class="modal-title" id="flagModalTitle">Flag Loan for Review</h6>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="flagReason" class="form-label">Flag Reason</label>
-                                <select id="flagReason" class="form-select">
-                                    <option value="">-- Select Reason --</option>
-                                    <option value="suspicious">Suspicious Activity</option>
-                                    <option value="incomplete_docs">Incomplete Documentation</option>
-                                    <option value="verification_needed">Further Verification Needed</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="flagComment" class="form-label">Additional Comments</label>
-                                <textarea id="flagComment" class="form-control" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                            <button id="confirmFlag" class="btn btn-warning btn-sm">Confirm Flag</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Modal: Request More Info -->
             <div class="modal fade" id="requestInfoModal" tabindex="-1" aria-labelledby="requestInfoModalTitle"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -1307,23 +1231,72 @@
     <script>
         const steps = ["Checking...", "Validating...", "Verifying...", "Processing...", "Verified"];
 
-        function animateVerification(id, delay = 1000) {
-            const element = document.getElementById(id).querySelector(".status");
-            let stepIndex = 0;
+        // Animate verification for a specific field
+        function animateVerification(id, delay = 1000, buttonElement = null, onComplete = null) {
+            const statusElement = document.querySelector(`#${id} .status`)
+                || document.querySelector(`#${id} span.status`);
 
+            if (!statusElement) {
+                console.error(`No .status span found for ID "${id}"`);
+                return;
+            }
+
+            let stepIndex = 0;
             const interval = setInterval(() => {
                 if (stepIndex < steps.length - 1) {
-                    element.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-primary"></i>
-                                 <small class="text-primary">${steps[stepIndex]}</small>`;
+                    statusElement.innerHTML = `
+                    <i class="fa-solid fa-spinner fa-spin text-primary"></i>
+                    <small class="text-primary">${steps[stepIndex]}</small>`;
                 } else {
-                    element.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i>
-                                 <small class="text-success">${steps[stepIndex]}</small>`;
+                    statusElement.innerHTML = `
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                    <small class="text-success">${steps[stepIndex]}</small>`;
+
+                    // Hide the individual button after verification
+                    if (buttonElement) {
+                        buttonElement.style.display = "none";
+                    }
+
+                    // Trigger callback if provided
+                    if (typeof onComplete === "function") {
+                        onComplete();
+                    }
+
                     clearInterval(interval);
                 }
                 stepIndex++;
             }, delay);
         }
 
+        // Verify a single field manually
+        function verifyField(fieldName, id, btn) {
+            animateVerification(id, 1000, btn, checkAllVerified);
+        }
+
+        // Check if all fields are verified
+        function checkAllVerified() {
+            const fields = [
+                "name-status",
+                "dob-status",
+                "bvn-status",
+                "nin-status",
+                "staff-id-status",
+                "payslip-status"
+            ];
+
+            const allVerified = fields.every(id => {
+                const statusElement = document.querySelector(`#${id} .status`)
+                    || document.querySelector(`#${id} span.status`);
+                return statusElement && statusElement.innerText.includes("Verified");
+            });
+
+            if (allVerified) {
+                const verifyBtn = document.getElementById("verify-btn");
+                if (verifyBtn) verifyBtn.style.display = "none";
+            }
+        }
+
+        // Handle "Verify All" button click
         document.getElementById("verify-btn").addEventListener("click", () => {
             const fields = [
                 "name-status",
@@ -1335,12 +1308,17 @@
             ];
 
             fields.forEach((id, index) => {
+                const container = document.getElementById(id)?.closest(".col-md-6, .mb-3");
+                const button = container?.querySelector("button");
                 setTimeout(() => {
-                    animateVerification(id, 1000); // 1 second per step
-                }, index * 1500); // Slight delay for sequential feel
+                    animateVerification(id, 1000, button, checkAllVerified);
+                }, index * 1500);
             });
         });
     </script>
+
+
+
 
 
     <script src="assets/js/pages/pendingloan.js"></script>
