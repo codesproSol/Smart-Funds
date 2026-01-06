@@ -294,6 +294,7 @@ function editCard(cardId) {
     // Default editable fields
     card.querySelectorAll(".field-value").forEach((span) => {
       const input = span.nextElementSibling;
+      if (!input) return;
 
       if (input.type === "date") {
         if (span.dataset.value) {
@@ -315,115 +316,74 @@ function editCard(cardId) {
 
 function updateCard(cardId) {
   const card = document.getElementById(cardId);
-  const updateBtn = card.querySelector("#updateBtn"); // Define file type regexes
-
-  const IMAGE_REGEX = /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i;
-  const PDF_REGEX = /\.pdf$/i; // Helper function to create the modal trigger handler (defined in the previous step)
-
-  const setupModalHandler = (url, name) => {
-    const isImage = IMAGE_REGEX.test(url);
-    const isPdf = PDF_REGEX.test(url);
-
-    return (e) => {
-      e.preventDefault(); // *** CRUCIAL: Prevents link navigation ***
-      if (isImage) {
-        document.querySelector(".modal-body > .mb-2").style.display = "flex"; // Show toolbar
-        openImageModal(url, name);
-      } else if (isPdf) {
-        document.querySelector(".modal-body > .mb-2").style.display = "none"; // Hide toolbar
-        openPdfModal(url, name);
-      }
-    };
-  };
+  const updateBtn = card.querySelector("#updateBtn");
 
   updateBtn.innerHTML = `<div style="display: flex; align-items:center; gap: 5px;">
-        <i class="la la-spinner text-white la-spin progress-icon-spin" style="font-size: 15px !important;"></i>Saving...
-    </div>`; // ... (Skipping profile card logic for brevity) ...
+    <i class="la la-spinner text-white la-spin progress-icon-spin" style="font-size: 15px !important;"></i>Saving...
+  </div>`;
+
+  const photoAct = card.querySelector("#profile_act");
+  if (photoAct) photoAct.classList.add("d-none");
 
   setTimeout(() => {
+    // Handle profile card image
+    if (card.classList.contains("profile-card")) {
+      const imgContainer = card.querySelector(".profile-img-container");
+      const img = imgContainer.querySelector(".profile-img");
+      const fileInput = imgContainer.querySelector(".profile-input");
+      const removeBtn = imgContainer.querySelector(".remove-photo");
+
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const previewURL = URL.createObjectURL(file);
+        img.src = previewURL;
+      }
+
+      img.style.display = "block";
+      fileInput.style.display = "none";
+      removeBtn.style.display = "none";
+    }
+
+    // Handle documents card
     if (card.classList.contains("documents-card")) {
       card.querySelectorAll(".document-item").forEach((item) => {
         const fileLink = item.querySelector(".doc-link");
         const fileInput = item.querySelector(".doc-input");
 
-        const originalName = fileLink.dataset.docName || fileLink.innerText;
-        const serverURL = fileLink.dataset.docUrl || "";
-        let finalURL = serverURL;
-        let oldLocalURL = fileLink.dataset.localUrl; // 1. Clean up previous state (crucial!)
-
-        let existingPreview = item.querySelector(".doc-preview");
-        let existingIconPreview = item.querySelector(".doc-icon-preview");
-        if (existingPreview) existingPreview.remove();
-        if (existingIconPreview) existingIconPreview.remove();
-        if (oldLocalURL) URL.revokeObjectURL(oldLocalURL); // 2. Determine final URL and update text/styles
-
-        let fileAvailable = false;
-        // ... (Logic to determine finalURL and fileAvailable remains the same) ...
         if (fileInput.files.length > 0) {
-          fileAvailable = true;
           const file = fileInput.files[0];
+          fileLink.innerText = fileLink.dataset.docName;
           const previewURL = URL.createObjectURL(file);
-          finalURL = previewURL;
-
-          fileLink.dataset.localUrl = previewURL;
-          fileLink.innerText = `${originalName} (Pending Upload: ${file.name})`;
-          fileLink.classList.add("link-success");
-        } else if (serverURL) {
-          fileAvailable = true;
-          finalURL = serverURL;
-          fileLink.innerText = originalName;
-          fileLink.classList.remove("link-success");
-          delete fileLink.dataset.localUrl;
-        } else {
-          finalURL = "#";
-          fileLink.innerText = `${originalName} (No file uploaded)`;
-          fileLink.classList.remove("link-success");
-        } // 3. Set the FINAL link behavior (crucial for modal logic)
-
-        fileLink.href = "#"; // <-- NAVIGATION PREVENTION
-
-        if (fileAvailable) {
-          const urlToPreview = finalURL;
-          const isImage = IMAGE_REGEX.test(urlToPreview);
-          const isPdf = PDF_REGEX.test(urlToPreview);
-
-          if (isImage || isPdf) {
-            // Assign the click handler to the main link
-            fileLink.onclick = setupModalHandler(urlToPreview, originalName);
-          } else {
-            fileLink.onclick = (e) => e.preventDefault();
-          } // 4. Update Visuals and **Ensure Click Handlers on New Previews**
-
-          if (isImage) {
-            let imgPreview = document.createElement("img");
-            imgPreview.className = "doc-preview";
-            imgPreview.style.maxWidth = "50px";
-            imgPreview.style.marginLeft = "10px"; // Find where to append the image relative to the link/icon
-            const existingIcon = item.querySelector(".fa-regular.fa-file-lines") || fileLink;
-            existingIcon.insertAdjacentElement("afterend", imgPreview);
-
-            imgPreview.src = urlToPreview; // !!! FIX: Assign the click handler to the new image thumbnail !!!
-            imgPreview.onclick = fileLink.onclick;
-          } else if (isPdf) {
-            let docIconPreview = document.createElement("i");
-            docIconPreview.className = "doc-icon-preview fa-solid fa-file-pdf me-2 text-danger";
-            docIconPreview.style.marginLeft = "10px";
-            docIconPreview.style.display = "inline-block";
-            docIconPreview.style.cursor = "default"; // Place the PDF icon next to the link
-            fileLink.insertAdjacentElement("afterend", docIconPreview);
-            // The icon itself does not need a click handler if the link handles it.
-          }
-        } else {
-          fileLink.onclick = (e) => e.preventDefault(); // No file available, disable link
-        } // 5. Clean up UI state for VIEW mode
+          fileLink.href = previewURL;
+          fileLink.target = "_blank";
+        }
 
         fileLink.style.display = "inline";
         fileInput.style.display = "none";
-        fileInput.value = "";
       });
-    } // ... (Other card logic and UI feedback) ...
+    }
 
-    updateBtn.innerHTML = `<div><i class="la la-check text-success" style="font-size: 15px !important;"> Updated</div>`;
+    // Handle text/date fields
+    card.querySelectorAll(".field-value").forEach((span) => {
+      const input = span.nextElementSibling;
+      if (!input) return;
+
+      if (input.type === "date") {
+        span.dataset.value = input.value;
+        span.innerText = new Date(input.value).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+      } else {
+        span.innerText = input.value;
+      }
+      span.style.display = "inline";
+      input.style.display = "none";
+    });
+
+    // Success state
+    updateBtn.innerHTML = `<div><i class="la la-check text-success" style="font-size: 15px !important;"></i> Updated</div>`;
     setTimeout(() => {
       updateBtn.innerHTML = `Update`;
       card.querySelector("#editBtn").style.display = "inline-block";
@@ -435,7 +395,6 @@ function updateCard(cardId) {
 
 function cancelCard(cardId) {
   const card = document.getElementById(cardId);
-
   const photoAct = card.querySelector("#profile_act");
   if (photoAct) photoAct.classList.add("d-none");
 
@@ -462,6 +421,7 @@ function cancelCard(cardId) {
   } else {
     card.querySelectorAll(".field-value").forEach((span) => {
       const input = span.nextElementSibling;
+      if (!input) return;
       input.style.display = "none";
       span.style.display = "inline";
     });
@@ -472,7 +432,14 @@ function cancelCard(cardId) {
   card.querySelector("#cancelBtn").style.display = "none";
 }
 
-// ===== Change Photo =====
+function removePhoto(cardId) {
+  const card = document.getElementById(cardId);
+  const imgContainer = card.querySelector(".profile-img-container");
+  const img = imgContainer.querySelector(".profile-img");
+
+  img.src = "https://via.placeholder.com/100"; // fallback default
+}
+
 const photoInput = document.getElementById("photoInput");
 const applicantPhoto = document.getElementById("applicantPhoto");
 const removePhotoBtn = document.getElementById("removePhotoBtn");
@@ -493,212 +460,98 @@ removePhotoBtn.addEventListener("click", function () {
   photoInput.value = ""; // clear file input
 });
 
-let scale = 1;
-let isDragging = false;
-let startX = 0,
-  startY = 0;
-let translateX = 0,
-  translateY = 0;
+// // ===== Editable Phone & Email =====
+// const phoneSpan = document.getElementById("phoneDisplay");
+// const emailSpan = document.getElementById("emailDisplay");
 
-const previewImage = document.getElementById("previewImage");
-const pdfWrapper = document.getElementById("pdfWrapper");
-const previewPdf = document.getElementById("previewPdf");
-const modalTitle = document.getElementById("imagePreviewLabel"); // Title of the modal
+// let isEditMode = false; // toggle state
 
-// --- Modal Functions ---
+// function makeEditable(span, type = "text") {
+//   if (!isEditMode) return; // only allow when editing
+//   if (span.querySelector("input")) return; // avoid duplicates
 
-/**
- * Opens the modal and prepares it for an Image preview.
- */
-function openImageModal(src, title) {
-  // Reset zoom/pan state
-  scale = 1;
-  translateX = 0;
-  translateY = 0;
+//   const currentValue = span.innerText;
+//   const input = document.createElement("input");
+//   input.type = type;
+//   input.value = currentValue;
+//   input.className = "form-control form-control-sm";
+//   input.style.display = "inline-block";
+//   input.style.width = "auto";
 
-  // Hide PDF, Show Image, Reset Transform
-  pdfWrapper.classList.add("d-none");
-  previewImage.classList.remove("d-none");
+//   span.innerHTML = "";
+//   span.appendChild(input);
+//   input.focus();
 
-  previewImage.src = src;
-  previewImage.style.transform = "translate(0,0) scale(1)";
-  modalTitle.innerText = title || "Document Preview";
+//   // Save on blur or Enter
+//   const saveValue = () => {
+//     span.innerText = input.value.trim() || currentValue;
+//   };
 
-  // Show the modal
-  const modal = new bootstrap.Modal(document.getElementById("imagePreviewModal"));
-  modal.show();
-}
+//   input.addEventListener("blur", saveValue);
+//   input.addEventListener("keydown", (e) => {
+//     if (e.key === "Enter") {
+//       e.preventDefault();
+//       saveValue();
+//     }
+//   });
+// }
 
-/**
- * Opens the modal and prepares it for a PDF preview.
- */
-function openPdfModal(src, title) {
-  // Hide Image, Show PDF
-  previewImage.classList.add("d-none");
-  pdfWrapper.classList.remove("d-none");
+// phoneSpan.addEventListener("click", () => makeEditable(phoneSpan, "tel"));
+// emailSpan.addEventListener("click", () => makeEditable(emailSpan, "email"));
 
-  previewPdf.src = src; // Set the source of the iframe
-  modalTitle.innerText = title || "Document Preview (PDF)";
+// // ===== Hook into your Edit / Cancel / Update buttons =====
+// const editBtn = document.getElementById("editBtn");
+// const updateBtn = document.getElementById("updateBtn");
+// const cancelBtn = document.getElementById("cancelBtn");
+// const photoActions = document.getElementById("photoActions");
+// // const photoActions = document.getElementById("photoActions");
 
-  // Hide image manipulation toolbar (Zoom/Pan buttons)
-  document.querySelector(".modal-body > .mb-2").style.display = "none";
+// editBtn.addEventListener("click", () => {
+//   isEditMode = true;
+//   editBtn.classList.add("d-none");
+//   updateBtn.classList.remove("d-none");
+//   cancelBtn.classList.remove("d-none");
+//   photoActions.classList.remove("d-none"); // show
+// });
 
-  // Show the modal
-  const modal = new bootstrap.Modal(document.getElementById("imagePreviewModal"));
-  modal.show();
-}
+// cancelBtn.addEventListener("click", () => {
+//   isEditMode = false;
+//   editBtn.classList.remove("d-none");
+//   updateBtn.classList.add("d-none");
+//   cancelBtn.classList.add("d-none");
+//   photoActions.classList.add("d-none"); // hide
+// });
 
-// --- Zoom/Pan Functions (Unchanged, but complete for context) ---
+// updateBtn.addEventListener("click", () => {
+//   isEditMode = false;
+//   editBtn.classList.remove("d-none");
+//   updateBtn.classList.add("d-none");
+//   cancelBtn.classList.add("d-none");
+//   photoActions.classList.add("d-none"); // hide
+// });
 
-// Zoom buttons
-document.getElementById("zoomInBtn").onclick = () => updateZoom(scale + 0.2);
-document.getElementById("zoomOutBtn").onclick = () => updateZoom(scale - 0.2);
-document.getElementById("resetZoomBtn").onclick = () => updateZoom(1, true);
+// const form = document.getElementById("profileForm");
 
-function updateZoom(newScale, reset = false) {
-  scale = Math.max(1, Math.min(newScale, 4));
-  if (reset) {
-    translateX = 0;
-    translateY = 0;
-  }
-  applyTransform();
-}
+// form.addEventListener("submit", function (e) {
+//   e.preventDefault(); // prevent real page reload
 
-function applyTransform() {
-  previewImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-}
+//   // show loading spinner
+//   document.getElementById("updateText").classList.add("d-none");
+//   document.getElementById("updateSpinner").classList.remove("d-none");
 
-// Drag to pan
-if (previewImage) {
-  previewImage.addEventListener("mousedown", (e) => {
-    if (scale <= 1) return;
-    isDragging = true;
-    startX = e.clientX - translateX;
-    startY = e.clientY - translateY;
-    e.preventDefault(); // Prevent text selection while dragging
-  });
-}
+//   // simulate async update (e.g. sending data to server)
+//   setTimeout(() => {
+//     // hide spinner, show text
+//     document.getElementById("updateText").classList.remove("d-none");
+//     document.getElementById("updateSpinner").classList.add("d-none");
 
-document.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
-  translateX = e.clientX - startX;
-  translateY = e.clientY - startY;
-  applyTransform();
-});
+//     // reset edit mode
+//     isEditMode = false;
+//     editBtn.classList.remove("d-none");
+//     updateBtn.classList.add("d-none");
+//     cancelBtn.classList.add("d-none");
+//     photoActions.classList.add("d-none");
 
-document.addEventListener("mouseup", () => {
-  isDragging = false;
-});
-
-// --- Initialization Function (Crucial Changes Here) ---
-
-// ... (All other functions: openImageModal, openPdfModal, zoom/pan remain the same) ...
-
-function initDocumentPreviews() {
-  // Defines the file type regexes
-  const IMAGE_REGEX = /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i;
-  const PDF_REGEX = /\.pdf$/i;
-
-  document.querySelectorAll(".documents-card .document-item").forEach((item) => {
-    const fileLink = item.querySelector(".doc-link");
-    // We will repurpose or add an icon element for the preview
-    let docIconPreview = item.querySelector(".doc-icon-preview");
-
-    if (!fileLink) return;
-
-    // If a preview icon doesn't exist, create one. We'll use this for PDFs.
-    if (!docIconPreview) {
-      docIconPreview = document.createElement("i");
-      docIconPreview.className = "doc-icon-preview me-2";
-      docIconPreview.style.marginLeft = "10px";
-      docIconPreview.style.display = "none";
-      docIconPreview.style.cursor = "pointer";
-      fileLink.insertAdjacentElement("afterend", docIconPreview);
-    }
-
-    // The image element created in the original code, we still need it for images
-    let imgPreview = item.querySelector(".doc-preview");
-    if (!imgPreview) {
-      imgPreview = document.createElement("img");
-      imgPreview.className = "doc-preview";
-      imgPreview.style.maxWidth = "50px";
-      imgPreview.style.marginLeft = "10px";
-      imgPreview.style.display = "none";
-      imgPreview.style.cursor = "pointer";
-      docIconPreview.insertAdjacentElement("afterend", imgPreview); // Insert after the new icon
-    }
-
-    // Reset element states
-    imgPreview.style.display = "none";
-    docIconPreview.style.display = "none";
-
-    const originalName = (fileLink.dataset.docName || fileLink.innerText || "").trim();
-    const serverURL = (fileLink.dataset.docUrl || "").trim();
-
-    fileLink.innerText = originalName;
-    fileLink.href = "#"; // Crucial: Prevent navigation by default
-
-    if (!serverURL) {
-      fileLink.onclick = (e) => e.preventDefault();
-      return;
-    }
-
-    const isImage = IMAGE_REGEX.test(serverURL);
-    const isPdf = PDF_REGEX.test(serverURL);
-
-    if (isImage) {
-      // --- IMAGE Logic ---
-      imgPreview.src = serverURL;
-      imgPreview.style.display = "inline-block";
-
-      // Set link click handler to open image modal
-      fileLink.onclick = (e) => {
-        e.preventDefault();
-        document.querySelector(".modal-body > .mb-2").style.display = "flex"; // Show toolbar
-        openImageModal(serverURL, originalName);
-      };
-
-      // Set thumbnail click handler
-      imgPreview.onclick = fileLink.onclick;
-    } else if (isPdf) {
-      // --- PDF Logic ---
-
-      // Show a PDF icon next to the name to indicate it's available
-      docIconPreview.className = "doc-icon-preview fa-solid fa-file-pdf me-2 text-danger";
-      docIconPreview.style.display = "inline-block";
-      docIconPreview.style.cursor = "default"; // Icon itself won't open modal
-
-      // Set link click handler to open PDF modal
-      fileLink.onclick = (e) => {
-        e.preventDefault();
-        openPdfModal(serverURL, originalName);
-      };
-    } else {
-      // --- OTHER Files Logic (Default to open in new tab) ---
-      fileLink.href = serverURL;
-      fileLink.target = "_blank";
-      fileLink.onclick = null;
-    }
-  });
-}
-
-// document.addEventListener("DOMContentLoaded", initDocumentPreviews);
-// ... (The rest of the DOMContentLoaded listener and other functions) ...
-
-document.addEventListener("DOMContentLoaded", () => {
-  initDocumentPreviews();
-
-  // Add event listener to reset the state when the modal is hidden
-  const modalElement = document.getElementById("imagePreviewModal");
-  if (modalElement) {
-    modalElement.addEventListener("hidden.bs.modal", function () {
-      // Reset transforms and visibility when modal is closed
-      previewImage.style.transform = "translate(0,0) scale(1)";
-      previewImage.src = "";
-      previewPdf.src = "";
-      previewImage.classList.remove("d-none");
-      pdfWrapper.classList.add("d-none");
-      document.querySelector(".modal-body > .mb-2").style.display = "flex"; // Reset toolbar visibility
-    });
-  }
-});
+//     alert("Profile updated successfully ✅");
+//   }, 2000); // simulate 2s delay
+// });

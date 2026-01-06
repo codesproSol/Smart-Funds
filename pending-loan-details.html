@@ -938,34 +938,59 @@
                         <div class="row g-3">
                             <!-- Left: Photo + Quick info -->
                             <div class="col-lg-4">
-                                <div class="card shadow-sm">
+                                <div class="card shadow-sm" id="profileCard">
                                     <div class="card-body">
-                                        <div class="mb-3 text-center">
-                                            <img id="applicantPhoto"
-                                                src="https://via.placeholder.com/400x240?text=Applicant+Photo"
-                                                alt="Applicant photo" class="photo-preview img-thumbnail">
-                                        </div>
+                                        <form id="applicantForm" class="needs-validation" novalidate
+                                            onsubmit="return updateCard(event, 'profileCard')">
+                                            <div class="mb-3 text-center">
+                                                <img id="applicantPhoto"
+                                                    src="https://via.placeholder.com/400x240?text=Applicant+Photo"
+                                                    alt="Applicant photo" class="photo-preview img-thumbnail">
+                                            </div>
 
-                                        <div class="d-grid gap-2 mb-2">
-                                            <label class="btn btn-sm btn-outline-primary position-relative">
-                                                <i class="fa-solid fa-camera me-1"></i> Change Photo
-                                                <input id="photoInput" type="file" accept="image/*" class="d-none">
-                                            </label>
-                                            <button id="removePhotoBtn" class="btn btn-sm btn-outline-danger">Remove
-                                                Photo</button>
-                                        </div>
+                                            <div class="d-grid d-none gap-2 mb-2" id="profile_act">
+                                                <label class="btn btn-sm btn-outline-primary position-relative">
+                                                    <i class="fa-solid fa-camera me-1"></i> Change Photo
+                                                    <input id="photoInput" type="file" accept="image/*" class="d-none">
+                                                </label>
+                                                <button id="removePhotoBtn" class="btn btn-sm btn-outline-danger">Remove
+                                                    Photo</button>
+                                            </div>
 
-                                        <hr>
+                                            <hr>
 
-                                        <h5 id="fullName" class="mb-1">Adebayo Okoro</h5>
-                                        <div class="mb-2">
-                                            <span class="badge bg-info" id="loanStatus">Pending Disbursement</span>
-                                        </div>
+                                            <div class="header-actions">
+                                                <button class="btn btn-sm btn-outline-theme" type="button" id="editBtn"
+                                                    onclick="editCard('profileCard')"><i
+                                                        class="fa fa-edit mx-1"></i>Edit</button>
+                                                <button class="btn btn-sm text-success btn-icon" type="button"
+                                                    id="updateBtn" onclick="updateCard('profileCard')"
+                                                    style="display:none;">
+                                                    Update
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary text-danger"
+                                                    id="cancelBtn" type="button" onclick="cancelCard('profileCard')"
+                                                    style="display:none;">Cancel</button>
+                                            </div>
 
-                                        <p class="mb-1"><strong>Phone:</strong> <span id="phone">0803 123 4567</span>
-                                        </p>
-                                        <p class="mb-0"><strong>Email:</strong> <span
-                                                id="email">adebayo.okoro@example.com</span></p>
+                                            <h5 id="fullName" class="mb-1">Adebayo Okoro</h5>
+                                            <div class="mb-2">
+                                                <span class="badge bg-info" id="loanStatus">Pending Disbursement</span>
+                                            </div>
+
+
+
+                                            <div class="mb-1">
+                                                <strong>Phone:</strong>
+                                                <span class="field-value">0809765432</span>
+                                                <input type="text" class="form-control edit-input" value="">
+                                            </div>
+                                            <div class="mb-1">
+                                                <strong>Email:</strong>
+                                                <span class="field-value">johndoe@email.com</span>
+                                                <input type="email" class="form-control edit-input" value="">
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
 
@@ -982,7 +1007,7 @@
                                                 class="fa-solid fa-check me-1" data-bs-toggle="modal"
                                                 data-bs-target="#exampleModalCenter"></i>Approve</button>
                                         <button id="denyBtn" class="col-auto btn btn-outline-danger w-100"><i
-                                                class="fa-solid fa-times me-1"></i>Deny</button>
+                                                class="fa-solid fa-times me-1"></i>Decline</button>
                                         <button id="flagBtn" class="btn btn-outline-warning w-100"><i
                                                 class="fa-solid fa-flag me-1"></i>Flag</button>
 
@@ -1105,7 +1130,21 @@
                                                     <div class="text-muted field-label">Salary Bank:</div>
                                                     <div>
                                                         <span class="field-value">First Bank of Nigeria</span>
-                                                        <input type="text" class="form-control edit-input">
+                                                        <select class="form-control edit-input">
+                                                            <option value="1">First Bank of Nigeria</option>
+                                                            <option>Access Bank</option>
+                                                            <option>Guaranty Trust Bank</option>
+                                                            <option>Zenith Bank</option>
+                                                            <option>United Bank for Africa</option>
+                                                            <option>Fidelity Bank</option>
+                                                            <option>Union Bank</option>
+                                                            <option>Stanbic IBTC Bank</option>
+                                                            <option>Polaris Bank</option>
+                                                            <option>Ecobank</option>
+                                                            <option>Wema Bank</option>
+                                                            <option>Keystone Bank</option>
+                                                            <option>Heritage Bank</option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
@@ -1127,6 +1166,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
+
 
                                                 <div class="col-sm-6 d-flex">
                                                     <div class="text-muted field-label">Monthly Salary:</div>
@@ -1229,10 +1269,15 @@
                                                             value="LN-20250708-001">
                                                     </div>
                                                 </div>
+
+                                                <div class="col-sm-6 d-flex">
+                                                    <div class="text-muted field-label">Loan Offered:</div>
+                                                    <span id="loanOffered">₦0</span>
+                                                </div>
                                             </div>
 
                                         </form>
-                                        <div id="eligibilityResult" class="mt-3"></div>
+                                        <div id="eligibilityResult" class="mt-3">232</div>
                                     </div>
 
                                 </div>
@@ -1252,26 +1297,93 @@
                                                 onclick="cancelCard('documentsCard')">Cancel</button>
                                         </div>
                                     </div>
+
                                     <div class="card-body">
                                         <ul class="list-unstyled mb-0">
+
                                             <li class="document-item">
                                                 <i class="fa-regular fa-file-lines me-2"></i>
-                                                <a href="#" class="link-primary doc-link">ID Card</a>
+                                                <a href="#" class="link-primary doc-link" data-doc-name="ID Card"
+                                                    data-doc-url="assets/images/logo-light.png">
+                                                    ID Card
+                                                </a>
                                                 <input type="file" class="doc-input" style="display:none;">
                                             </li>
+
                                             <li class="document-item">
                                                 <i class="fa-regular fa-file-lines me-2"></i>
-                                                <a href="#" class="link-primary doc-link">Payslip (Last 3 months)</a>
+                                                <a href="#" class="link-primary doc-link"
+                                                    data-doc-name="Payslip (Last 3 months)"
+                                                    data-doc-url="assets/images/logo-dark.png">
+                                                    Payslip (Last 3 months)
+                                                </a>
                                                 <input type="file" class="doc-input" style="display:none;">
                                             </li>
+
                                             <li class="document-item">
                                                 <i class="fa-regular fa-file-lines me-2"></i>
-                                                <a href="#" class="link-primary doc-link">Bank Statement</a>
+                                                <a href="#" class="link-primary doc-link" data-doc-name="Bank Statement"
+                                                    data-doc-url="/waybill.pdf">
+                                                    Bank Statement
+                                                </a>
                                                 <input type="file" class="doc-input" style="display:none;">
                                             </li>
+
                                         </ul>
                                     </div>
                                 </div>
+
+                                <!-- Image Preview Modal -->
+                                <div class="modal fade bd-example-modal-xl" id="imagePreviewModal" tabindex="-1"
+                                    role="dialog" aria-labelledby="imagePreviewLabel" aria-hidden="true">
+
+                                    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <h6 class="modal-title m-0" id="imagePreviewLabel">
+                                                    Document Preview
+                                                </h6>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body text-center" style="height: 70dvh;">
+
+                                                <!-- Toolbar -->
+                                                <div class="mb-2 d-flex justify-content-center gap-2">
+                                                    <button class="btn btn-sm btn-secondary" id="zoomInBtn">+</button>
+                                                    <button class="btn btn-sm btn-secondary" id="zoomOutBtn">−</button>
+                                                    <button class="btn btn-sm btn-secondary"
+                                                        id="resetZoomBtn">Reset</button>
+                                                </div>
+
+                                                <!-- Image -->
+                                                <div class="img-preview-wrapper">
+                                                    <img id="previewImage" src="" alt="Preview" class="img-fluid"
+                                                        style="width: 100%;" />
+                                                </div>
+
+                                                <!-- PDF Wrapper -->
+                                                <div id="pdfWrapper" class="pdf-preview-wrapper d-none"
+                                                    style="height: 90%;">
+                                                    <iframe id="previewPdf" width="100%" height="100%"></iframe>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary btn-sm"
+                                                    data-bs-dismiss="modal">
+                                                    Close
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
 
 
 
@@ -1350,20 +1462,29 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-danger text-white">
-                            <h6 class="modal-title" id="denyModalTitle">Deny Loan Request</h6>
+                            <h6 class="modal-title" id="denyModalTitle">Decline Loan Request</h6>
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Are you sure you want to deny this loan request?</p>
+                            <p>Are you sure you want to decline this loan request?</p>
                             <div class="mb-3">
-                                <label for="denyComment" class="form-label">Reason for Denial</label>
+                                <label for="declineReason" class="form-label">Decline Reason</label>
+                                <select id="declineReason" class="form-select">
+                                    <option value="">-- Select Reason --</option>
+                                    <option value="suspicious">Suspicious Activity</option>
+                                    <option value="incomplete_docs">Incomplete Documentation</option>
+                                    <option value="verification_needed">Further Verification Needed</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="denyComment" class="form-label">Additional Coment</label>
                                 <textarea id="denyComment" class="form-control" rows="3"
                                     placeholder="Enter your reason..."></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                            <button id="confirmDeny" class="btn btn-danger btn-sm">Confirm Denial</button>
+                            <button id="confirmDeny" class="btn btn-danger btn-sm">Decline</button>
                         </div>
                     </div>
                 </div>

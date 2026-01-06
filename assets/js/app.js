@@ -119,3 +119,72 @@ const initVerticalMenu = () => {
       }, 200));
 };
 initVerticalMenu();
+
+function initAutoDataTables() {
+  if (typeof $ === "undefined" || typeof $.fn.DataTable === "undefined") {
+    console.error("DataTables or jQuery not loaded.");
+    return;
+  }
+
+  $('table[data-datatable="true"]').each(function () {
+    const $table = $(this);
+
+    // Prevent double initialization
+    if ($.fn.DataTable.isDataTable($table)) return;
+
+    // Allow custom options
+    let customOptions = {};
+    const optAttr = $table.attr("data-options");
+    if (optAttr) {
+      try {
+        customOptions = JSON.parse(optAttr);
+      } catch (e) {
+        console.warn("Invalid data-options JSON:", e);
+      }
+    }
+
+    $table.DataTable({
+      dom: "Bfrtip",
+      responsive: true,
+      autoWidth: false,
+      pageLength: 10,
+
+      buttons: [
+        {
+          extend: "collection",
+          text: '<i class="iconoir-menu-scale"></i> Export',
+          buttons: [
+            {
+              extend: "copy",
+              text: '<i class="iconoir-copy"></i> Copy',
+            },
+            {
+              extend: "csv",
+              text: '<i class="iconoir-doc-csv"></i> CSV',
+            },
+            {
+              extend: "excel",
+              text: '<i class="iconoir-stat-down-square"></i> Excel',
+            },
+            {
+              extend: "pdf",
+              text: '<i class="iconoir-doc-pdf"></i> PDF',
+            },
+          ],
+        },
+        {
+          extend: "print",
+          text: '<i class="iconoir-file"></i> Print',
+        },
+        {
+          extend: "colvis",
+          text: '<i class="iconoir-view-grid"></i> Columns',
+        },
+      ],
+
+      ...customOptions,
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", initAutoDataTables);
